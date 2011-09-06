@@ -1,0 +1,29 @@
+\documentclass{facture}
+\usepackage{lipsum}
+\setmainfont[Mapping=tex-text]{Linux Libertine O}
+\datelimite{30}
+\dest{Client\\
+Dans telle rue\\
+CP VILLE
+}
+\fact{Client facturé
+Dans telle rue\\
+CP VILLE\\
+}
+\nomemet{Entreprise}
+\adresseemet{Adresse\\
+CP Ville\\
+courriel@domaine.tld \\
+Tel : 01 23 45 67 89 \\
+}
+\codedest{Ent}
+\numero{24}
+\type{Devis}
+\pied{Payable à l’ordre de  XXXX --- 
+SIRET : XXXX
+}
+\begin{document}
+\entete
+
+\lipsum[1-14]
+\end{document}
