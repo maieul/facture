@@ -97,15 +97,15 @@
 
 	\ifdef{\@fact}{
 	\node[text width=0.33\textwidth,anchor=base]{
-		\textcolor{entetes}{\facturation}
+		\textcolor{entetes}{\textbf\facturation}
 		
 		\@fact
 		};
 	}{}
 	
 	\node[xshift=0.33\textwidth,text width=0.33\textwidth,anchor=base]{\ifdef{\@fact}{
-			\textcolor{entetes}{\livraison}}
-			{\textcolor{entetes}{\livraisonfacturation}}
+			\textcolor{entetes}{\textbf\livraison}}
+			{\textcolor{entetes}{\textbf\livraisonfacturation}}
 			
 		\@dest
 	};
