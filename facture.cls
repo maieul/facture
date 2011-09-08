@@ -53,6 +53,9 @@
 \newcommand{\prixTTC}{Prix TTC}
 \newcommand{\totalHT}{Total HT}
 \newcommand{\unite}{€}
+\newcommand{\totHTtxt}{Total HT}
+\newcommand{\totTVAtxt}{Total TVA}
+\newcommand{\totTTCtxt}{Total TTC}
 %%%%%%%%%%%%% Variable mathématiques
 
 \newcommand{\tvadefaut}{19,6}
@@ -154,12 +157,25 @@
 \lfoot{\ifnumgreater{\thepage}{1}{\thepage}{}}
 
 %%%%%%%%% Tableau
+
+\xdef\totTVA{}
+\xdef\totHT{}
+\xdef\totTTC{}
 \newenvironment{facture}{%
 	\begin{longtable}{|l|l|l|l|l|l|l|}
 	\produit & \quantite & \prixHT & \remise & \totalHT & \TVAtxt & \prixTTC \\%
 	\endhead
 	}{%
 	\end{longtable}
+	
+	\begin{tikzpicture}
+	\begin{scope}[xshift=0.66\textwidth]	
+		\node{\textcolor{entetes}{\textbf\totHTtxt}  \totHT \unite};
+		\node{\textcolor{entetes}{\textbf\totTVAtxt} \totTVA \unite};
+		\node{\textcolor{entetes}{\textbf\totTTCtxt} \totTTC \unite};
+	\end{scope}
+	\end{tikzpicture}
+	
 	}
 
 \newcommandx{\ligne}[5][2=1,4=\tvadefaut,5=0,usedefault]{%
@@ -174,20 +190,28 @@
 	\fpSub{\HTprecis}{\HTprecis}{#5}%
 	\fpRound{\HT}{\HTprecis}{\arrondi}%arrondissons
 	\xdef\HT{\HT}%retenons
-
+	\fpAdd{\totHT}{\totHT}{\HTprecis}
+	\xdef\totHT{\totHT}	
+	
+	
 	% Calcul de la TVA
-		 \fpDiv{\centieme}{#4}{100}%
-		 \fpMul{\TVAprecis}{\centieme}{\HTprecis}%
-		 \fpRound{\TVA}{\TVAprecis}{\arrondi}%arrondissons
-		 \xdef\TVA{\TVA}%retenons
+	\fpDiv{\centieme}{#4}{100}%
+	\fpMul{\TVAprecis}{\centieme}{\HTprecis}%
+	\fpRound{\TVA}{\TVAprecis}{\arrondi}%arrondissons
+	\xdef\TVA{\TVA}%retenons
+	\fpAdd{\totHT}{\totTVA}{\TVAprecis}
+	\xdef\totTVA{\totTVA}		
 	
 	% Prix TTC
 	\fpAdd{\TTCprecis}{\HTprecis}{\TVAprecis}%
 	\fpRound{\TTC}{\TTCprecis}{\arrondi}%
 	\xdef\TTC{\TTC}
+	\fpAdd{\totTTC}{\totTTC}{\TTCprecis}
+	\xdef\totTTC{\totTTC}	
 	
 	% Affichage
 	#1 &  #2 &  #3 & #5 & \HT  & \TVA (#4\%) & \TTC \\
+	
 	
 	
 }
