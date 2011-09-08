@@ -8,11 +8,11 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{facture}[6/09/2011 v1.0]
 \LoadClass{article}
-
 \RequirePackage{fontspec}	
 \RequirePackage{xunicode}
 \RequirePackage{polyglossia}
 \setmainlanguage{french}
+\RequirePackage{fltpoint}% Pour faire les calculs dans le tableau
 \RequirePackage{tikz} % tikz est utilise pour tracer des boites, par exemple
 \RequirePackage{graphicx} % Pour insérer des images. Utiliser le format jpg pour plus de simplicité.
 \RequirePackage{fancyhdr} % Pour entête et pied de page
@@ -23,29 +23,46 @@
 \RequirePackage{longtable}
 \RequirePackage{advdate}
 \RequirePackage{etoolbox}
-%\RequirePackage{calctab}% Pour faire les calculs dans le tableau
+\RequirePackage{xargs}
+
 
 %%%%%%%%%%%%%%%% COULEURS
 \definecolor{entetes}{HTML}{888888}
 \definecolor{encadre}{RGB}{111,111,111}
 \definecolor{blanc}{RGB}{255,255,255}
 
-%%%%%%%%%%%%%%% Chaîines de langues
+%%%%%%%%%%%%%%% Chaînes de langues
+
+% Entête
 \newcommand{\codeclient}{Code client :}
 \newcommand{\datetxt}{Date:}
 \newcommand{\datelimitetxt}{À payer avant:}
 \newcommand{\facturation}{Facturation}
-\newcommand{\facture}{Facture}
+\newcommand{\facturetxt}{Facture}
 \newcommand{\livraison}{Livraison}
 \newcommand{\livraisonfacturation}{Livraison et Facturation}
 \newcommand{\ntxt}{~n°}
 
+% Facture
+
+\newcommand{\produit}{Produit}
+\newcommand{\prixHT}{Prix HT}
+\newcommand{\quantite}{Quantité}
+\newcommand{\remise}{Remise}
+\newcommand{\TVAtxt}{TVA}
+\newcommand{\prixTTC}{Prix TTC}
+\newcommand{\totalHT}{Total HT}
+\newcommand{\unite}{€}
+%%%%%%%%%%%%% Variable mathématiques
+
+\newcommand{\tvadefaut}{19,6}
+\newcommand{\arrondi}{-1}
 
 %%%%%%%%%%% Méta-données %%%%%%%%%%%
 
 
 % Valeurs par défaut
-\gdef\@type{\facture}
+\gdef\@type{\facturetxt}
 
 \newcommand{\datelimite}[1]{\newcommand{\@datelimite}{#1}}
 \newcommand{\dest}[1]{\newcommand{\@dest}{#1}}
@@ -58,7 +75,7 @@
 \newcommand{\pied}[1]{\rfoot{#1}}
 \setlength{\tabcolsep}{1pt}
 
-%%%%%%%%%% Affichage
+%%%%%%%%%% Entete
 \newcommand{\entete}{
 	
 	
@@ -130,8 +147,47 @@
 
 
 
-%%%%%%%%%%%% En-tetes %%%%%%%%%%
+%%%%%%%%%% Pied de page
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrule}{\relax} % Pour ne pas avoir de trait en haut
 \lfoot{\ifnumgreater{\thepage}{1}{\thepage}{}}
+
+%%%%%%%%% Tableau
+\newenvironment{facture}{%
+	\begin{longtable}{|l|l|l|l|l|l|l|}
+	\produit & \quantite & \prixHT & \remise & \totalHT & \TVAtxt & \prixTTC \\%
+	\endhead
+	}{%
+	\end{longtable}
+	}
+
+\newcommandx{\ligne}[5][2=1,4=\tvadefaut,5=0,usedefault]{%
+	% 1:produit
+	% 2:QT (optionnel)
+	% 3:prix HT
+	% 4:TVA (optionnel)
+	% 5:Remise (optionnel)
+	%#1 & #2 & #3 &  #5 &
+	% Prix hors taxe
+	\fpMul{\HTprecis}{#3}{#2}%
+	\fpSub{\HTprecis}{\HTprecis}{#5}%
+	\fpRound{\HT}{\HTprecis}{\arrondi}%arrondissons
+	\xdef\HT{\HT}%retenons
+
+	% Calcul de la TVA
+		 \fpDiv{\centieme}{#4}{100}%
+		 \fpMul{\TVAprecis}{\centieme}{\HTprecis}%
+		 \fpRound{\TVA}{\TVAprecis}{\arrondi}%arrondissons
+		 \xdef\TVA{\TVA}%retenons
+	
+	% Prix TTC
+	\fpAdd{\TTCprecis}{\HTprecis}{\TVAprecis}%
+	\fpRound{\TTC}{\TTCprecis}{\arrondi}%
+	\xdef\TTC{\TTC}
+	
+	% Affichage
+	#1 &  #2 &  #3 & #5 & \HT  & \TVA (#4\%) & \TTC \\
+	
+	
+}
