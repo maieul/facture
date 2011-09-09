@@ -56,6 +56,7 @@
 \newcommand{\totHTtxt}{Total HT}
 \newcommand{\totTVAtxt}{Total TVA}
 \newcommand{\totTTCtxt}{Total TTC}
+\newcommand{\postTotaux}{}
 %%%%%%%%%%%%% Variable mathématiques
 
 \newcommand{\tvadefaut}{19,6}
@@ -174,7 +175,8 @@
 		\node[right,xshift=0.66\textwidth,text width=0.66\textwidth]{%
 						\textcolor{entetes}{\textbf\totHTtxt}  \totHT \unite \\%
 						\textcolor{entetes}{\textbf\totTVAtxt} \totTVA \unite \\%
-						\textcolor{entetes}{\textbf\totTTCtxt} \totTTC \unite};
+						\textcolor{entetes}{\textbf\totTTCtxt} \totTTC \unite \\
+						\postTotaux};
 	%\end{scope}
 	\end{tikzpicture}
 	
