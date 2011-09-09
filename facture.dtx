@@ -6,11 +6,14 @@
 % \iffalse
 %<*driver>
 \ProvidesFile{facture.dtx}
+
 \documentclass{ltxdoc}
 \usepackage{fontspec}
 \usepackage{xunicode}
 \usepackage{polyglossia}
+\usepackage{hyperref}
 \setmainlanguage{french}
+\usepackage{bidi}
 \EnableCrossrefs
 \RecordChanges
 \begin{document}
@@ -26,12 +29,17 @@
 %\maketitle
 %\begin{abstract}
 %Cette classe permet de rédiger facture et devis, avec ou sans TVA, en calculant automatiquement les sommes.
+%
+% Elle fonctionne avec \XeLaTeX{} et non pas \LaTeX{}. 
+%
+% Elle est sous licence Creative Commons - Paternité - Partage des Conditions Initiales à l'identique\footnote{\url{http://creativecommons.org/licenses/by-sa/2.0/fr/}.}.
 %\end{abstract}
 %    \begin{macrocode}
 %    \end{macrocode} 
 %\begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{facture}[2011/09/10 v1.0]
+\LoadClass{article}
 \RequirePackage{fontspec}    
 \RequirePackage{xunicode}
 \RequirePackage{polyglossia}
