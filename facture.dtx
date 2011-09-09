@@ -37,6 +37,23 @@
 % Pour tout demande de corrections ou d'améliorations, merci d'ouvrir un ticket sur github : \url{https://github.com/maieul/facture/issues}.
 %\end{abstract}
 %\tableofcontents
+%\section{Chargement et configuration}
+%\subsection{Avec ou sans TVA ?}
+% Le package se charge comme tout les packages. Une option \verb|sansTVA| permet de produire des factures sans gestion de la TVA. Typiquement pour des auto-entrepreneurs.
+% Ainsi :
+%\begin{verbatim}
+%\documentclass[sansTVA]{facture}
+%\end{verbatim}
+%
+% Permet de génerer une facture sans gestion de la TVA. À contrario, 
+%\begin{verbatim}
+%\documentclass{facture}
+%\end{verbatim}
+%
+%Permet de générer une facture avec TVA. Celle-ci est définie par défaut à 19,6\%, mais il est possible de modifier le taux, grâce en rédéfinissant la commande \cmd{\tvadefaut}. Par exemple pour avoir le taux de 5,5 \% :
+%\begin{verbatim}
+%\renewcommand{\tvadefaut}{5,5}
+%\end{verbatim}
 %    \begin{macrocode}
 %    \end{macrocode} 
 %\begin{macrocode}
