@@ -209,9 +209,9 @@
 						\ifsanstva%
 							\hfill \libelle{\tottxt:} \numprint[\unite]{\tot}\\%				
 						\else%				
-							\libelle{\totHTtxt}\hfill \numprint[\unite]{\totHT} \\%
-							\libelle{\totTVAtxt}\hfill \numprint[\unite]{\totTVA} \\%
-							\libelle{\totTTCtxt}\hfill \numprint[\unite]{\totTTC} \\
+							\libelle{\totHTtxt:}\hfill \numprint[\unite]{\totHT} \\%
+							\libelle{\totTVAtxt:}\hfill \numprint[\unite]{\totTVA} \\%
+							\libelle{\totTTCtxt:}\hfill \numprint[\unite]{\totTTC} \\
 						\fi
 						\postTotaux};
 	%\end{scope}
