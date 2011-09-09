@@ -24,6 +24,7 @@
 \RequirePackage{advdate}
 \RequirePackage{etoolbox}
 \RequirePackage{xargs}
+\RequirePackage{colortbl}
 
 
 %%%%%%%%%%%%%%%% COULEURS
@@ -162,15 +163,19 @@
 \xdef\totTVA{}
 \xdef\totHT{}
 \xdef\totTTC{}
+\newcolumntype{P}[1]{>{\raggedleft}p{#1}}
 \newenvironment{facture}{%
-	\begin{longtable}{|p{0.3\textwidth}p{0.1\textwidth}p{0.1\textwidth}p{0.1\textwidth}p{0.1\textwidth}p{0.2\textwidth}p{0.1\textwidth}|}
+	\setlength{\extrarowheight}{0.5ex}
+	\setlength{\tabcolsep}{0.5em}
+	\arrayrulecolor{encadre}	
+	\begin{longtable}{|p{0.2\textwidth}|P{0.1\textwidth}|P{0.1\textwidth}|P{0.1\textwidth}|P{0.1\textwidth}|P{0.2\textwidth}|P{0.1\textwidth}|}
 	\hline%	
-	\libelle{\produit} & \libelle{\quantite} & \libelle{\prixHT} & \libelle{\remise} & \libelle{\totalHT} & \libelle{\TVAtxt} & \libelle{\prixTTC} \\[1ex]%	
+	\rowcolor{entetes}\centering\textbf\produit & \centering\textbf\quantite & \centering\textbf\prixHT & \centering\textbf\remise & \centering\textbf\totalHT & \centering\textbf\TVAtxt & \textbf\prixTTC \tabularnewline[1ex]%	
 	\endhead%
 	\endfoot%
 	
 	}{%
-	\hline%
+
 	\end{longtable}
 	
 	\begin{tikzpicture}
@@ -214,7 +219,8 @@
 	\fpAdd{\totTTC}{\totTTC}{\TTCprecis}%
 	\xdef\totTTC{\totTTC}%	
 	% Affichage
-	#1 &  #2 &  #3 & #5 & \HT  & \TVA (#4\%) & \TTC \\[1ex]
+	#1 &  #2 &  #3~\unite & #5~\unite & \HT~\unite  & \TVA~\unite~(#4\%) & \TTC~\unite \tabularnewline[1ex]
+	\hline
 	
 	
 	
