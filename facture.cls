@@ -11,7 +11,7 @@
 \RequirePackage{fontspec}	
 \RequirePackage{xunicode}
 \RequirePackage{polyglossia}
-\setmainlanguage{french}
+\RequirePackage{numprint}
 \RequirePackage{fltpoint}% Pour faire les calculs dans le tableau
 \RequirePackage{tikz} % tikz est utilise pour tracer des boites, par exemple
 \RequirePackage{graphicx} % Pour insérer des images. Utiliser le format jpg pour plus de simplicité.
@@ -59,9 +59,10 @@
 \newcommand{\totTTCtxt}{Total TTC}
 \newcommand{\postTotaux}{}
 %%%%%%%%%%%%% Variable mathématiques
-
+\npaddmissingzero
+\nprounddigits{2}
 \newcommand{\tvadefaut}{19,6}
-\newcommand{\arrondi}{-1}
+
 
 %%%%%%%%%%% Méta-données %%%%%%%%%%%
 
@@ -182,9 +183,9 @@
 	%\begin{scope}[xshift=0.66\textwidth]	
 	\draw[color=white] (0,0) circle (0.001);	
 		\node[right,xshift=0.66\textwidth,text width=0.33\textwidth]{%
-						\libelle{\totHTtxt}\hfill \totHT~\unite \\%
-						\libelle{\totTVAtxt}\hfill \totTVA~\unite \\%
-						\libelle{\totTTCtxt}\hfill \totTTC~\unite \\
+						\libelle{\totHTtxt}\hfill \numprint[\unite]{\totHT} \\%
+						\libelle{\totTVAtxt}\hfill \numprint[\unite]{\totTVA} \\%
+						\libelle{\totTTCtxt}\hfill \numprint[\unite]{\totTTC} \\
 						\postTotaux};
 	%\end{scope}
 	\end{tikzpicture}
@@ -199,27 +200,24 @@
 	% 5:Remise (optionnel)
 	%#1 & #2 & #3 &  #5 &
 	% Prix hors taxe
-	\fpMul{\HTprecis}{#3}{#2}%
-	\fpSub{\HTprecis}{\HTprecis}{#5}%
-	\fpRound{\HT}{\HTprecis}{\arrondi}%arrondissons
+	\fpMul{\HT}{#3}{#2}%
+	\fpSub{\HT}{\HT}{#5}%
 	\xdef\HT{\HT}%retenons
-	\fpAdd{\totHT}{\totHT}{\HTprecis}%
+	\fpAdd{\totHT}{\totHT}{\HT}%
 	\xdef\totHT{\totHT}%
 	% Calcul de la TVA
 	\fpDiv{\centieme}{#4}{100}%
-	\fpMul{\TVAprecis}{\centieme}{\HTprecis}%
-	\fpRound{\TVA}{\TVAprecis}{\arrondi}%arrondissons
+	\fpMul{\TVA}{\centieme}{\HT}%
 	\xdef\TVA{\TVA}%retenons
-	\fpAdd{\totTVA}{\totTVA}{\TVAprecis}%
+	\fpAdd{\totTVA}{\totTVA}{\TVA}%
 	\xdef\totTVA{\totTVA}%		
 	% Prix TTC
-	\fpAdd{\TTCprecis}{\HTprecis}{\TVAprecis}%
-	\fpRound{\TTC}{\TTCprecis}{\arrondi}%
+	\fpAdd{\TTC}{\HT}{\TVA}%
 	\xdef\TTC{\TTC}%
-	\fpAdd{\totTTC}{\totTTC}{\TTCprecis}%
+	\fpAdd{\totTTC}{\totTTC}{\TTC}%
 	\xdef\totTTC{\totTTC}%	
 	% Affichage
-	#1 &  #2 &  #3~\unite & #5~\unite & \HT~\unite  & \TVA~\unite~(#4\%) & \TTC~\unite \tabularnewline[1ex]
+	#1 &  #2 &  \numprint[\unite]{#3} & \numprint[\unite]{#5} & \numprint[\unite]{\HT}  & \numprint[\unite]{\TVA} (#4\%) & \numprint[\unite]{\TTC} \tabularnewline[1ex]
 	\hline
 	
 	
