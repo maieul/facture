@@ -34,8 +34,9 @@
 %
 % Elle est sous licence Creative Commons - Paternité - Partage des Conditions Initiales à l'identique\footnote{\url{http://creativecommons.org/licenses/by-sa/2.0/fr/}.}.
 %
-% Pour tout demande de corrections ou d'améliorations, merci d'ouvrir un ticket sur github : \ref{https://github.com/maieul/facture/issues}.
+% Pour tout demande de corrections ou d'améliorations, merci d'ouvrir un ticket sur github : \url{https://github.com/maieul/facture/issues}.
 %\end{abstract}
+%\tableofcontents
 %    \begin{macrocode}
 %    \end{macrocode} 
 %\begin{macrocode}
@@ -61,6 +62,7 @@
 \RequirePackage{xargs}
 \RequirePackage{colortbl}
 %\end{macrocode}
+%\begin{macrocode}
 \newif\ifsansTVA
 \sansTVAfalse
 \DeclareOption{sansTVA}{\sansTVAtrue}
@@ -278,6 +280,7 @@
 %\end{macrocode}
 %    \begin{macrocode}
 %    \end{macrocode}
+% \PrintChanges
 %\Finale
 
 \endinput
