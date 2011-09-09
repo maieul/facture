@@ -169,11 +169,13 @@
 	\end{longtable}
 	
 	\begin{tikzpicture}
-	\begin{scope}[xshift=0.66\textwidth]	
-		\node{\textcolor{entetes}{\textbf\totHTtxt}  \totHT \unite};
-		\node{\textcolor{entetes}{\textbf\totTVAtxt} \totTVA \unite};
-		\node{\textcolor{entetes}{\textbf\totTTCtxt} \totTTC \unite};
-	\end{scope}
+	%\begin{scope}[xshift=0.66\textwidth]	
+	\draw[color=white] (0,0) circle (0.001);	
+		\node[right,xshift=0.66\textwidth,text width=0.66\textwidth]{%
+						\textcolor{entetes}{\textbf\totHTtxt}  \totHT \unite \\%
+						\textcolor{entetes}{\textbf\totTVAtxt} \totTVA \unite \\%
+						\textcolor{entetes}{\textbf\totTTCtxt} \totTTC \unite};
+	%\end{scope}
 	\end{tikzpicture}
 	
 	}
@@ -199,7 +201,7 @@
 	\fpMul{\TVAprecis}{\centieme}{\HTprecis}%
 	\fpRound{\TVA}{\TVAprecis}{\arrondi}%arrondissons
 	\xdef\TVA{\TVA}%retenons
-	\fpAdd{\totHT}{\totTVA}{\TVAprecis}
+	\fpAdd{\totTVA}{\totTVA}{\TVAprecis}
 	\xdef\totTVA{\totTVA}		
 	
 	% Prix TTC
