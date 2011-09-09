@@ -60,7 +60,7 @@
 \ifsanstva%
 	\newcommand{\tottxt}{Total}
 	\newcommand{\prixtxt}{Prix}
-	\newcommand{\postTotaux}{TVA non applicable, art. 293 B}
+	\newcommand{\postTotaux}{\hfill TVA non applicable, art. 293 B}
 \else%
 	\newcommand{\prixHT}{Prix HT}
 	\newcommand{\TVAtxt}{TVA}
@@ -219,20 +219,21 @@
 	
 	}
 
+\newcommand{\lignesansTVA}[5]{#1 & #2 & #3 & #4 & #5 \tabularnewline[1ex]}
 \newcommandx{\ligne}[5][2=1,4=\tvadefaut,5=0,usedefault]{%
 	% 1:produit
 	% 2:QT (optionnel)
 	% 3:prix HT
 	% 4:TVA (optionnel)
 	% 5:Remise (optionnel)
-	\ifsanstva{
+	\ifsanstva
 		\fpMul{\prix}{#3}{#2}%
 		\fpSub{\prix}{\prix}{#5}%
 		\fpAdd{\tot}{\prix}{\tot}%
 		\xdef\tot{\tot}%
 		\xdef\prix{\prix}%
 		%Affichage
-		#1 &  #2 &  \numprint[\unite]{#3} & \numprint[\unite]{#5} & \numprint[\unite]{\prix} \tabularnewline[1ex]}%		
+		\lignesansTVA{#1}{#2}{\numprint[\unite]{#3}}{\numprint[\unite]{#5}}{\numprint[\unite]{\prix}}%
 	\else
 		% Prix hors taxe
 		\fpMul{\HT}{#3}{#2}%
