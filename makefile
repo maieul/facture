@@ -1,9 +1,14 @@
-all:
-	xelatex facture.ins
-	xelatex facture.dtx
-	xelatex exemple.tex
-	xelatex exemplesanstva.tex
+.PHONY:all clean
+
+facture.pdf:facture.ins facture.dtx
+	@xelatex facture.ins
+	@xelatex facture.dtx
+
+	
+%.pdf:%.tex
+	@xelatex $*	
+all:facture.pdf exemple.pdf exemplesanstva.pdf
 	zip facture.zip facture.ins facture.dtx *pdf
 
 clean:
-	rm -f *out *aux *log *pdf *glo *zip
+	rm -f *out *aux *log *pdf *glo *zip *cls
