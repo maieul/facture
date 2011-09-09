@@ -30,7 +30,7 @@
 \definecolor{entetes}{HTML}{888888}
 \definecolor{encadre}{RGB}{111,111,111}
 \definecolor{blanc}{RGB}{255,255,255}
-
+\newcommand{\libelle}[1]{\textcolor{entetes}{\textbf#1}}
 %%%%%%%%%%%%%%% Chaînes de langues
 
 % Entête
@@ -107,7 +107,7 @@
 	\begin{flushright}	
 		
 	
-	{\Huge\textcolor{entetes}{\textbf\@type}}
+	{\Huge\libelle{\@type}}
 	
 	\end{flushright}	
 	
@@ -118,28 +118,28 @@
 
 	\ifdef{\@fact}{
 	\node[text width=0.33\textwidth,anchor=base]{
-		\textcolor{entetes}{\textbf\facturation}
+		\libelle{\facturation}
 		
 		\@fact
 		};
 	}{}
 	
 	\node[xshift=0.33\textwidth,text width=0.33\textwidth,anchor=base]{\ifdef{\@fact}{
-			\textcolor{entetes}{\textbf\livraison}}
-			{\textcolor{entetes}{\textbf\livraisonfacturation}}
+			\libelle{\livraison}}
+			{\libelle{\livraisonfacturation}}
 			
 		\@dest
 	};
 	\node[text width=0.33\textwidth,xshift=0.66\textwidth,anchor=base]{
-		\textcolor{entetes}{\textbf{\datetxt}} \@date	\\
+		\libelle{{\datetxt}} \@date	\\
 		\ifdef{\@numero}{%
-			\textcolor{entetes}{\textbf{\@type\ntxt}} \@numero		
+			\libelle{{\@type\ntxt}} \@numero		
 		}{}
 		\\
 		\ifdef{\@codedest}{%
-			\textcolor{entetes}{\textbf{\codeclient}} \@codedest		
+			\libelle{{\codeclient}} \@codedest		
 		}{}
-		\ifdef{\@datelimite}{\\\AdvanceDate[\@datelimite]\textcolor{entetes}{\textbf{\datelimitetxt}} \@date}{}
+		\ifdef{\@datelimite}{\\\AdvanceDate[\@datelimite]\libelle{{\datelimitetxt}} \@date}{}
 	};
 	
 	\end{tikzpicture}
@@ -173,9 +173,9 @@
 	%\begin{scope}[xshift=0.66\textwidth]	
 	\draw[color=white] (0,0) circle (0.001);	
 		\node[right,xshift=0.66\textwidth,text width=0.66\textwidth]{%
-						\textcolor{entetes}{\textbf\totHTtxt}  \totHT \unite \\%
-						\textcolor{entetes}{\textbf\totTVAtxt} \totTVA \unite \\%
-						\textcolor{entetes}{\textbf\totTTCtxt} \totTTC \unite \\
+						\libelle{\totHTtxt}  \totHT \unite \\%
+						\libelle{\totTVAtxt} \totTVA \unite \\%
+						\libelle{\totTTCtxt} \totTTC \unite \\
 						\postTotaux};
 	%\end{scope}
 	\end{tikzpicture}
