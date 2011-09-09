@@ -27,10 +27,10 @@
 \RequirePackage{xargs}
 \RequirePackage{colortbl}
 
-%%%%%%%%%%%%%%%% Option sanstva
-\newif\ifsanstva
-\sanstvafalse
-\DeclareOption{sanstva}{\sanstvatrue}
+%%%%%%%%%%%%%%%% Option sansTVA
+\newif\ifsansTVA
+\sansTVAfalse
+\DeclareOption{sansTVA}{\sansTVAtrue}
 \ProcessOptions
 
 %%%%%%%%%%%%%%%% COULEURS
@@ -57,7 +57,7 @@
 \newcommand{\remise}{Remise}
 \newcommand{\unite}{€}
 
-\ifsanstva%
+\ifsansTVA%
 	\newcommand{\tottxt}{Total}
 	\newcommand{\prixtxt}{Prix}
 	\newcommand{\postTotaux}{\hfill TVA non applicable, art. 293 B}
@@ -174,7 +174,7 @@
 \lfoot{\ifnumgreater{\thepage}{1}{\thepage}{}}
 
 %%%%%%%%% Tableau
-\ifsanstva
+\ifsansTVA
 	\xdef\tot{}
 \else
 	\xdef\totTVA{}
@@ -186,7 +186,7 @@
 	\setlength{\extrarowheight}{0.5ex}
 	\setlength{\tabcolsep}{0.5em}
 	\arrayrulecolor{encadre}	
-	\ifsanstva%	
+	\ifsansTVA%	
 		\begin{longtable}{|p{0.2\textwidth}|P{0.2\textwidth}|P{0.2\textwidth}|P{0.2\textwidth}|P{0.2\textwidth}|}%
 		\hline%	
 		\rowcolor{entetes}\centering\textbf\produit & \centering\textbf\quantite   & \centering\textbf\prixtxt & \centering\textbf\remise & \centering\textbf\tottxt  \tabularnewline[1ex]%
@@ -206,7 +206,7 @@
 	%\begin{scope}[xshift=0.66\textwidth]	
 	\draw[color=white] (0,0) circle (0.001);	
 		\node[right,xshift=0.66\textwidth,text width=0.33\textwidth]{%
-						\ifsanstva%
+						\ifsansTVA%
 							\hfill \libelle{\tottxt:} \numprint[\unite]{\tot}\\%				
 						\else%				
 							\libelle{\totHTtxt:}\hfill \numprint[\unite]{\totHT} \\%
@@ -226,7 +226,7 @@
 	% 3:prix HT
 	% 4:TVA (optionnel)
 	% 5:Remise (optionnel)
-	\ifsanstva
+	\ifsansTVA
 		\fpMul{\prix}{#3}{#2}%
 		\fpSub{\prix}{\prix}{#5}%
 		\fpAdd{\tot}{\prix}{\tot}%
