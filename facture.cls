@@ -11,6 +11,7 @@
 \RequirePackage{fontspec}	
 \RequirePackage{xunicode}
 \RequirePackage{polyglossia}
+\setmainlanguage{french}
 \RequirePackage{numprint}
 \RequirePackage{fltpoint}% Pour faire les calculs dans le tableau
 \RequirePackage{tikz} % tikz est utilise pour tracer des boites, par exemple
@@ -26,6 +27,11 @@
 \RequirePackage{xargs}
 \RequirePackage{colortbl}
 
+%%%%%%%%%%%%%%%% Option sanstva
+\newif\ifsanstva
+\sanstvafalse
+\DeclareOption{sanstva}{\sanstvatrue}
+\ProcessOptions
 
 %%%%%%%%%%%%%%%% COULEURS
 \definecolor{entetes}{HTML}{888888}
@@ -47,17 +53,25 @@
 % Facture
 
 \newcommand{\produit}{Produit}
-\newcommand{\prixHT}{Prix HT}
 \newcommand{\quantite}{Quantité}
 \newcommand{\remise}{Remise}
-\newcommand{\TVAtxt}{TVA}
-\newcommand{\prixTTC}{Prix TTC}
-\newcommand{\totalHT}{Total HT}
 \newcommand{\unite}{€}
-\newcommand{\totHTtxt}{Total HT}
-\newcommand{\totTVAtxt}{Total TVA}
-\newcommand{\totTTCtxt}{Total TTC}
-\newcommand{\postTotaux}{}
+
+\ifsanstva%
+	\newcommand{\tottxt}{Total}
+	\newcommand{\prixtxt}{Prix}
+	\newcommand{\postTotaux}{TVA non applicable, art. 293 B}
+\else%
+	\newcommand{\prixHT}{Prix HT}
+	\newcommand{\TVAtxt}{TVA}
+	\newcommand{\prixTTC}{Prix TTC}
+	\newcommand{\totHTtxt}{Total HT}
+	\newcommand{\totTVAtxt}{Total TVA}
+	\newcommand{\totTTCtxt}{Total TTC}
+	\newcommand{\postTotaux}{}
+\fi
+
+
 %%%%%%%%%%%%% Variable mathématiques
 \npaddmissingzero
 \nprounddigits{2}
@@ -160,18 +174,27 @@
 \lfoot{\ifnumgreater{\thepage}{1}{\thepage}{}}
 
 %%%%%%%%% Tableau
-
-\xdef\totTVA{}
-\xdef\totHT{}
-\xdef\totTTC{}
+\ifsanstva
+	\xdef\tot{}
+\else
+	\xdef\totTVA{}
+	\xdef\totHT{}
+	\xdef\totTTC{}
+\fi
 \newcolumntype{P}[1]{>{\raggedleft}p{#1}}
 \newenvironment{facture}{%
 	\setlength{\extrarowheight}{0.5ex}
 	\setlength{\tabcolsep}{0.5em}
 	\arrayrulecolor{encadre}	
-	\begin{longtable}{|p{0.2\textwidth}|P{0.1\textwidth}|P{0.1\textwidth}|P{0.1\textwidth}|P{0.1\textwidth}|P{0.2\textwidth}|P{0.1\textwidth}|}
-	\hline%	
-	\rowcolor{entetes}\centering\textbf\produit & \centering\textbf\quantite & \centering\textbf\prixHT & \centering\textbf\remise & \centering\textbf\totalHT & \centering\textbf\TVAtxt & \textbf\prixTTC \tabularnewline[1ex]%	
+	\ifsanstva%	
+		\begin{longtable}{|p{0.2\textwidth}|P{0.2\textwidth}|P{0.2\textwidth}|P{0.2\textwidth}|P{0.2\textwidth}|}%
+		\hline%	
+		\rowcolor{entetes}\centering\textbf\produit & \centering\textbf\quantite   & \centering\textbf\prixtxt & \centering\textbf\remise & \centering\textbf\tottxt  \tabularnewline[1ex]%
+	\else%		
+		\begin{longtable}{|p{0.2\textwidth}|P{0.1\textwidth}|P{0.1\textwidth}|P{0.1\textwidth}|P{0.1\textwidth}|P{0.2\textwidth}|P{0.1\textwidth}|}%
+		\hline%	
+		\rowcolor{entetes}\centering\textbf\produit & \centering\textbf\quantite & \centering\textbf\prixHT & \centering\textbf\remise & \centering\textbf\totHTtxt & \centering\textbf\TVAtxt & \textbf\prixTTC \tabularnewline[1ex]%
+	\fi%	
 	\endhead%
 	\endfoot%
 	
@@ -183,9 +206,13 @@
 	%\begin{scope}[xshift=0.66\textwidth]	
 	\draw[color=white] (0,0) circle (0.001);	
 		\node[right,xshift=0.66\textwidth,text width=0.33\textwidth]{%
-						\libelle{\totHTtxt}\hfill \numprint[\unite]{\totHT} \\%
-						\libelle{\totTVAtxt}\hfill \numprint[\unite]{\totTVA} \\%
-						\libelle{\totTTCtxt}\hfill \numprint[\unite]{\totTTC} \\
+						\ifsanstva%
+							\hfill \libelle{\tottxt:} \numprint[\unite]{\tot}\\%				
+						\else%				
+							\libelle{\totHTtxt}\hfill \numprint[\unite]{\totHT} \\%
+							\libelle{\totTVAtxt}\hfill \numprint[\unite]{\totTVA} \\%
+							\libelle{\totTTCtxt}\hfill \numprint[\unite]{\totTTC} \\
+						\fi
 						\postTotaux};
 	%\end{scope}
 	\end{tikzpicture}
@@ -198,28 +225,34 @@
 	% 3:prix HT
 	% 4:TVA (optionnel)
 	% 5:Remise (optionnel)
-	%#1 & #2 & #3 &  #5 &
-	% Prix hors taxe
-	\fpMul{\HT}{#3}{#2}%
-	\fpSub{\HT}{\HT}{#5}%
-	\xdef\HT{\HT}%retenons
-	\fpAdd{\totHT}{\totHT}{\HT}%
-	\xdef\totHT{\totHT}%
-	% Calcul de la TVA
-	\fpDiv{\centieme}{#4}{100}%
-	\fpMul{\TVA}{\centieme}{\HT}%
-	\xdef\TVA{\TVA}%retenons
-	\fpAdd{\totTVA}{\totTVA}{\TVA}%
-	\xdef\totTVA{\totTVA}%		
-	% Prix TTC
-	\fpAdd{\TTC}{\HT}{\TVA}%
-	\xdef\TTC{\TTC}%
-	\fpAdd{\totTTC}{\totTTC}{\TTC}%
-	\xdef\totTTC{\totTTC}%	
-	% Affichage
-	#1 &  #2 &  \numprint[\unite]{#3} & \numprint[\unite]{#5} & \numprint[\unite]{\HT}  & \numprint[\unite]{\TVA} (#4\%) & \numprint[\unite]{\TTC} \tabularnewline[1ex]
+	\ifsanstva{
+		\fpMul{\prix}{#3}{#2}%
+		\fpSub{\prix}{\prix}{#5}%
+		\fpAdd{\tot}{\prix}{\tot}%
+		\xdef\tot{\tot}%
+		\xdef\prix{\prix}%
+		%Affichage
+		#1 &  #2 &  \numprint[\unite]{#3} & \numprint[\unite]{#5} & \numprint[\unite]{\prix} \tabularnewline[1ex]}%		
+	\else
+		% Prix hors taxe
+		\fpMul{\HT}{#3}{#2}%
+		\fpSub{\HT}{\HT}{#5}%
+		\xdef\HT{\HT}%retenons
+		\fpAdd{\totHT}{\totHT}{\HT}%
+		\xdef\totHT{\totHT}%
+		% Calcul de la TVA
+		\fpDiv{\centieme}{#4}{100}%
+		\fpMul{\TVA}{\centieme}{\HT}%
+		\xdef\TVA{\TVA}%retenons
+		\fpAdd{\totTVA}{\totTVA}{\TVA}%
+		\xdef\totTVA{\totTVA}%		
+		% Prix TTC
+		\fpAdd{\TTC}{\HT}{\TVA}%
+		\xdef\TTC{\TTC}%
+		\fpAdd{\totTTC}{\totTTC}{\TTC}%
+		\xdef\totTTC{\totTTC}%	
+		% Affichage
+		#1 &  #2 &  \numprint[\unite]{#3} & \numprint[\unite]{#5} & \numprint[\unite]{\HT}  & \numprint[\unite]{\TVA} (#4\%) & \numprint[\unite]{\TTC} \tabularnewline[1ex]%
+	\fi
 	\hline
-	
-	
-	
 }
