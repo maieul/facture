@@ -1,0 +1,239 @@
+%%
+%% This is file `facture.cls',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% facture.dtx  (with options: `class')
+%% Ceci est un fichier généré.
+%% 
+%% Droits d'auteur : Maïeul Rouquette 2011
+%% 
+%% Licence Creative Commons - Paternité -Partage des Conditions Initiales à l'identique
+%% http://creativecommons.org/licenses/by-sa/2.0/fr/
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{facture}[2011/09/10 v1.0]
+\RequirePackage{fontspec}
+\RequirePackage{xunicode}
+\RequirePackage{polyglossia}
+\setmainlanguage{french}
+\RequirePackage{numprint}
+\RequirePackage{fltpoint}% Pour faire les calculs dans le tableau
+\RequirePackage{tikz} % tikz est utilise pour tracer des boites, par exemple
+\RequirePackage{graphicx} % Pour insérer des images. Utiliser le format jpg pour plus de simplicité.
+\RequirePackage{fancyhdr} % Pour entête et pied de page
+\RequirePackage{pifont} % Pour utiliser des symboles divers.
+\RequirePackage[paper=a4paper,top=2 cm, bottom=2 cm, left=1.5 cm, right=2.5 cm]{geometry} % On peut modifier ces valeurs pour augmenter ou réduire les marges.
+\RequirePackage{ifthen}
+\RequirePackage{array}
+\RequirePackage{longtable}
+\RequirePackage{advdate}
+\RequirePackage{etoolbox}
+\RequirePackage{xargs}
+\RequirePackage{colortbl}
+\newif\ifsansTVA
+\sansTVAfalse
+\DeclareOption{sansTVA}{\sansTVAtrue}
+\ProcessOptions
+
+\definecolor{entetes}{HTML}{888888}
+\definecolor{encadre}{RGB}{111,111,111}
+\definecolor{blanc}{RGB}{255,255,255}
+\newcommand{\libelle}[1]{\textcolor{entetes}{\textbf#1}}
+
+\newcommand{\codeclient}{Code client :}
+\newcommand{\datetxt}{Date:}
+\newcommand{\datelimitetxt}{À payer avant:}
+\newcommand{\facturation}{Facturation}
+\newcommand{\facturetxt}{Facture}
+\newcommand{\livraison}{Livraison}
+\newcommand{\livraisonfacturation}{Livraison et Facturation}
+\newcommand{\ntxt}{~n°}
+
+\newcommand{\produit}{Produit}
+\newcommand{\quantite}{Quantité}
+\newcommand{\remise}{Remise}
+\newcommand{\unite}{€}
+
+\ifsansTVA%
+    \newcommand{\tottxt}{Total}
+    \newcommand{\prixtxt}{Prix}
+    \newcommand{\postTotaux}{\hfill TVA non applicable, art. 293 B}
+\else%
+    \newcommand{\prixHT}{Prix HT}
+    \newcommand{\TVAtxt}{TVA}
+    \newcommand{\prixTTC}{Prix TTC}
+    \newcommand{\totHTtxt}{Total HT}
+    \newcommand{\totTVAtxt}{Total TVA}
+    \newcommand{\totTTCtxt}{Total TTC}
+    \newcommand{\postTotaux}{}
+\fi
+
+\npaddmissingzero
+\nprounddigits{2}
+\newcommand{\tvadefaut}{19,6}
+
+\gdef\@type{\facturetxt}
+
+\newcommand{\datelimite}[1]{\newcommand{\@datelimite}{#1}}
+\newcommand{\dest}[1]{\newcommand{\@dest}{#1}}
+\newcommand{\fact}[1]{\newcommand{\@fact}{#1}}
+\newcommand{\adresseemet}[1]{\gdef\@adresseemet{#1}}
+\newcommand{\nomemet}[1]{\gdef\@nomemet{#1}}
+\newcommand{\type}[1]{\gdef\@type{#1}}
+\newcommand{\numero}[1]{\gdef\@numero{#1}}
+\newcommand{\codedest}[1]{\gdef\@codedest{#1}}
+\newcommand{\pied}[1]{\rfoot{#1}}
+\setlength{\tabcolsep}{1pt}
+
+\newcommand{\entete}{
+
+    \noindent\begin{tikzpicture}
+
+        \noindent\node [font=\bf\Huge,text width=0.5\textwidth,text=entetes,text centered]{%
+            \@nomemet%
+        };
+
+        \noindent\node (b)[xshift=0.5\textwidth,text width=0.5\textwidth, right]{%
+            \@adresseemet%
+        };
+
+    % Détermination des coordonnées du rectangle, en fonction de l'adresse
+    \coordinate[xshift=-1\textwidth,yshift=1ex] (a) at (b.north);
+    \coordinate[xshift=1em,yshift=-1ex] (c) at (b.south);
+    \draw[color=encadre,line width=1.5mm] (a) rectangle  (c);
+
+    \end{tikzpicture}
+
+    \vspace{3ex}
+
+    \begin{flushright}
+
+    {\Huge\libelle{\@type}}
+
+    \end{flushright}
+
+    \vspace{3ex}
+
+    \begin{tikzpicture}
+
+    \ifdef{\@fact}{
+    \node[text width=0.33\textwidth,anchor=base]{
+        \libelle{\facturation}
+
+        \@fact
+        };
+    }{}
+
+    \node[xshift=0.33\textwidth,text width=0.33\textwidth,anchor=base]{\ifdef{\@fact}{
+            \libelle{\livraison}}
+            {\libelle{\livraisonfacturation}}
+
+        \@dest
+    };
+    \node[text width=0.33\textwidth,xshift=0.66\textwidth,anchor=base]{
+        \libelle{{\datetxt}} \@date    \\
+        \ifdef{\@numero}{%
+            \libelle{{\@type\ntxt}} \@numero
+        }{}
+        \\
+        \ifdef{\@codedest}{%
+            \libelle{{\codeclient}} \@codedest
+        }{}
+        \ifdef{\@datelimite}{\\\AdvanceDate[\@datelimite]\libelle{{\datelimitetxt}} \@date}{}
+    };
+
+    \end{tikzpicture}
+
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrule}{\relax}
+\lfoot{\ifnumgreater{\thepage}{1}{\thepage}{}}
+
+\ifsansTVA
+    \xdef\tot{}
+\else
+    \xdef\totTVA{}
+    \xdef\totHT{}
+    \xdef\totTTC{}
+\fi
+\newcolumntype{P}[1]{>{\raggedleft}p{#1}}
+\newenvironment{facture}{%
+    \setlength{\extrarowheight}{0.5ex}
+    \setlength{\tabcolsep}{0.5em}
+    \arrayrulecolor{encadre}
+    \ifsansTVA%
+        \begin{longtable}{|p{0.2\textwidth}|P{0.2\textwidth}|P{0.2\textwidth}|P{0.2\textwidth}|P{0.2\textwidth}|}%
+        \hline%
+        \rowcolor{entetes}\centering\textbf\produit & \centering\textbf\quantite   & \centering\textbf\prixtxt & \centering\textbf\remise & \centering\textbf\tottxt  \tabularnewline[1ex]%
+    \else%
+        \begin{longtable}{|p{0.2\textwidth}|P{0.1\textwidth}|P{0.1\textwidth}|P{0.1\textwidth}|P{0.1\textwidth}|P{0.2\textwidth}|P{0.1\textwidth}|}%
+        \hline%
+        \rowcolor{entetes}\centering\textbf\produit & \centering\textbf\quantite & \centering\textbf\prixHT & \centering\textbf\remise & \centering\textbf\totHTtxt & \centering\textbf\TVAtxt & \textbf\prixTTC \tabularnewline[1ex]%
+    \fi%
+    \endhead%
+    \endfoot%
+
+    }{%
+
+    \end{longtable}
+
+    \begin{tikzpicture}
+    \draw[color=white] (0,0) circle (0.001);
+        \node[right,xshift=0.66\textwidth,text width=0.33\textwidth]{%
+                        \ifsansTVA%
+                            \hfill \libelle{\tottxt:} \numprint[\unite]{\tot}\\%
+                        \else%
+                            \libelle{\totHTtxt:}\hfill \numprint[\unite]{\totHT} \\%
+                            \libelle{\totTVAtxt:}\hfill \numprint[\unite]{\totTVA} \\%
+                            \libelle{\totTTCtxt:}\hfill \numprint[\unite]{\totTTC} \\
+                        \fi
+                        \postTotaux};
+    \end{tikzpicture}
+
+    }
+
+\newcommand{\lignesansTVA}[5]{#1 & #2 & #3 & #4 & #5 \tabularnewline[1ex]}
+\newcommandx{\ligne}[5][2=1,4=\tvadefaut,5=0,usedefault]{%
+    % 1:produit
+    % 2:QT (optionnel)
+    % 3:prix HT
+    % 4:TVA (optionnel)
+    % 5:Remise (optionnel)
+    \ifsansTVA
+        \fpMul{\prix}{#3}{#2}%
+        \fpSub{\prix}{\prix}{#5}%
+        \fpAdd{\tot}{\prix}{\tot}%
+        \xdef\tot{\tot}%
+        \xdef\prix{\prix}%
+        %Affichage
+        \lignesansTVA{#1}{#2}{\numprint[\unite]{#3}}{\numprint[\unite]{#5}}{\numprint[\unite]{\prix}}%
+    \else
+        % Prix hors taxe
+        \fpMul{\HT}{#3}{#2}%
+        \fpSub{\HT}{\HT}{#5}%
+        \xdef\HT{\HT}%retenons
+        \fpAdd{\totHT}{\totHT}{\HT}%
+        \xdef\totHT{\totHT}%
+        % Calcul de la TVA
+        \fpDiv{\centieme}{#4}{100}%
+        \fpMul{\TVA}{\centieme}{\HT}%
+        \xdef\TVA{\TVA}%retenons
+        \fpAdd{\totTVA}{\totTVA}{\TVA}%
+        \xdef\totTVA{\totTVA}%
+        % Prix TTC
+        \fpAdd{\TTC}{\HT}{\TVA}%
+        \xdef\TTC{\TTC}%
+        \fpAdd{\totTTC}{\totTTC}{\TTC}%
+        \xdef\totTTC{\totTTC}%
+        % Affichage
+        #1 &  #2 &  \numprint[\unite]{#3} & \numprint[\unite]{#5} & \numprint[\unite]{\HT}  & \numprint[\unite]{\TVA} (#4\%) & \numprint[\unite]{\TTC} \tabularnewline[1ex]%
+    \fi
+    \hline
+}
+
+\endinput
+%%
+%% End of file `facture.cls'.
