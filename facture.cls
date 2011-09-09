@@ -163,19 +163,23 @@
 \xdef\totHT{}
 \xdef\totTTC{}
 \newenvironment{facture}{%
-	\begin{longtable}{|l|l|l|l|l|l|l|}
-	\produit & \quantite & \prixHT & \remise & \totalHT & \TVAtxt & \prixTTC \\%
-	\endhead
+	\begin{longtable}{|p{0.3\textwidth}p{0.1\textwidth}p{0.1\textwidth}p{0.1\textwidth}p{0.1\textwidth}p{0.2\textwidth}p{0.1\textwidth}|}
+	\hline%	
+	\libelle{\produit} & \libelle{\quantite} & \libelle{\prixHT} & \libelle{\remise} & \libelle{\totalHT} & \libelle{\TVAtxt} & \libelle{\prixTTC} \\[1ex]%	
+	\endhead%
+	\endfoot%
+	
 	}{%
+	\hline%
 	\end{longtable}
 	
 	\begin{tikzpicture}
 	%\begin{scope}[xshift=0.66\textwidth]	
 	\draw[color=white] (0,0) circle (0.001);	
-		\node[right,xshift=0.66\textwidth,text width=0.66\textwidth]{%
-						\libelle{\totHTtxt}  \totHT \unite \\%
-						\libelle{\totTVAtxt} \totTVA \unite \\%
-						\libelle{\totTTCtxt} \totTTC \unite \\
+		\node[right,xshift=0.66\textwidth,text width=0.33\textwidth]{%
+						\libelle{\totHTtxt}\hfill \totHT~\unite \\%
+						\libelle{\totTVAtxt}\hfill \totTVA~\unite \\%
+						\libelle{\totTTCtxt}\hfill \totTTC~\unite \\
 						\postTotaux};
 	%\end{scope}
 	\end{tikzpicture}
@@ -194,27 +198,23 @@
 	\fpSub{\HTprecis}{\HTprecis}{#5}%
 	\fpRound{\HT}{\HTprecis}{\arrondi}%arrondissons
 	\xdef\HT{\HT}%retenons
-	\fpAdd{\totHT}{\totHT}{\HTprecis}
-	\xdef\totHT{\totHT}	
-	
-	
+	\fpAdd{\totHT}{\totHT}{\HTprecis}%
+	\xdef\totHT{\totHT}%
 	% Calcul de la TVA
 	\fpDiv{\centieme}{#4}{100}%
 	\fpMul{\TVAprecis}{\centieme}{\HTprecis}%
 	\fpRound{\TVA}{\TVAprecis}{\arrondi}%arrondissons
 	\xdef\TVA{\TVA}%retenons
-	\fpAdd{\totTVA}{\totTVA}{\TVAprecis}
-	\xdef\totTVA{\totTVA}		
-	
+	\fpAdd{\totTVA}{\totTVA}{\TVAprecis}%
+	\xdef\totTVA{\totTVA}%		
 	% Prix TTC
 	\fpAdd{\TTCprecis}{\HTprecis}{\TVAprecis}%
 	\fpRound{\TTC}{\TTCprecis}{\arrondi}%
-	\xdef\TTC{\TTC}
-	\fpAdd{\totTTC}{\totTTC}{\TTCprecis}
-	\xdef\totTTC{\totTTC}	
-	
+	\xdef\TTC{\TTC}%
+	\fpAdd{\totTTC}{\totTTC}{\TTCprecis}%
+	\xdef\totTTC{\totTTC}%	
 	% Affichage
-	#1 &  #2 &  #3 & #5 & \HT  & \TVA (#4\%) & \TTC \\
+	#1 &  #2 &  #3 & #5 & \HT  & \TVA (#4\%) & \TTC \\[1ex]
 	
 	
 	
