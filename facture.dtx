@@ -10,9 +10,8 @@
 \documentclass{ltxdoc}
 \usepackage{fontspec}
 \usepackage{xunicode}
-\usepackage{polyglossia}
+\usepackage[frenchb]{babel}
 \usepackage{hyperref}
-\setmainlanguage{french}
 \setmainfont[Mapping=tex-text]{Linux Libertine O}
 \usepackage{bidi}
 \EnableCrossrefs
@@ -39,7 +38,7 @@
 %\end{abstract}
 %\tableofcontents
 %\section{Chargement et configuration}
-%\subsection{Avec ou sans TVA ?}
+%\subsection{Avec ou sans TVA ?}\label{TVA}
 % Le package se charge comme tout les packages. Une option \verb|sansTVA| permet de produire des factures sans gestion de la TVA. Typiquement pour des auto-entrepreneurs.
 % Ainsi :
 %\begin{verbatim}
@@ -76,12 +75,39 @@
 %
 %L'adresse de livraison se définie via la commande \DescribeMacro{\dest}\cmd{\dest}\marg{adresse}, l'adresse de facturation via \DescribeMacro{\fact}\marg{adresse}. Encore une fois, les différentes lignes de l'adresse doivent être séparées par \verb|\\|.
 %
-% Il est possible d'affecter un code au client, via la commande DescribeMacro{\codeclient}\cmd{\codeclient}\marg{code}.
+% Il est possible d'affecter un code au client, via la commande \DescribeMacro{\codeclient}\cmd{\codeclient}\marg{code}.
 %\subsection{Affichage des méta-données}
 %Toutes ces méta-données, à l'exception du taux de TVA et du pied de page sont affichées dans une zolie présentation avec la commande. \DescribeMacro{\entete}\cmd{\entete}.
 %\section{Insertion de texte}
 % La classe étant dérivée de la classe \emph{article}, il est possible d'insérer du texte sectionnable avec les commandes de \emph{article}. Il n'y a pas d'endroit obligatoire pour l'afficher.
+%\section{Insertion de la facture}.
+% Une facture est constituée de lignes indiquant les prix et quantités des différents produits. Chaque ligne s'indique au sein de l'environnement \DescribeEnv{facture}\emph{facture}, via la commande  \DescribeMacro{\ligne}\cmd{\ligne}\marg{produit}\oarg{quantité}\marg{prix unitaire HT}\oarg{remise}\oarg{taux de TVA}.
 %
+%\meta{produit} est le nom du produit.
+%\meta{quantité} est la quantité souhaitée. Le nombre peut être entier ou décimal. En l'absence de cet argument, on suppose que le produit n'est présent qu'une fois.
+%\meta{prix unitaire HT} n'est pas à décrire.
+%\meta{remise}s'applique sur le prix total HT.
+%\meta{taux de TVA}: si un produit n'a pas le même taux que celui par défaut (\emph{cf}. section~\ref{TVA}), cet argument permet d'indiquer le taux. Il est exprimé en pourcentage, mais sans le signe \%.
+%
+%
+%Tout les nombres décimaux s'expriment en utilisent la virgule, même si l'usage du point fonctionne également.
+%
+% La commande se charge automatiquement  de calculer et d'afficher le prix total HT, la TVA et le prix  total TTC.
+% Le total des produits est affichée avec la fermeture de l'environnement \emph{facture}. Exemple (voir le fichier \href{exemple.pdf}{exemple.pdf} pour le résultat):
+%\begin{verbatim}
+%\begin{facture}
+%\ligne{Produit 1}[2]{25}
+%\ligne{Produit 2}{10}[2]
+%\end{facture}
+%\end{verbatim}
+%
+% Dans le cas où l'option \verb|sansTVA| (\emph{cf}. section~\ref{TVA}) a été passée lors de l'appel à la classe, les colonnes ne sont pas les mêmes. Exemples (voir le fichier \href{exemplesansTVA.pdf}{exemplesansTVA.pdf} pour le résultat): 
+%\begin{verbatim}
+%\begin{facture}
+%\ligne{Produit 1}[2]{25}
+%\ligne{Produit 2}{10}[][2]
+%\end{facture}
+%\end{verbatim}
 %    \begin{macrocode}
 %    \end{macrocode} 
 %\begin{macrocode}
@@ -92,7 +118,6 @@
 \RequirePackage{xunicode}
 \RequirePackage{polyglossia}
 \setmainlanguage{french}
-\setmainfont[
 \RequirePackage{numprint}
 \RequirePackage{fltpoint}% Pour faire les calculs dans le tableau
 \RequirePackage{tikz} % tikz est utilise pour tracer des boites, par exemple
@@ -157,7 +182,7 @@
 
 \gdef\@type{\facturetxt}
 \renewcommand{\date}[1]{\SetDate[#1]}
-\newcommand{\TVAdefaut}[#1]{\gdef\@TVAdefaut{#1}}
+\newcommand{\TVAdefaut}[1]{\gdef\@TVAdefaut{#1}}
 \newcommand{\datelimite}[1]{\newcommand{\@datelimite}{#1}}
 \newcommand{\dest}[1]{\newcommand{\@dest}{#1}}
 \newcommand{\fact}[1]{\newcommand{\@fact}{#1}}
@@ -229,7 +254,7 @@
         \ifdef{\@codedest}{%
             \libelle{{\codeclient}} \@codedest        
         }{}
-        \ifdef{\@datelimite}{\\\AdvanceDate[\@datelimite]\libelle{{\datelimitetxt}} \@today}{}
+        \ifdef{\@datelimite}{\\\AdvanceDate[\@datelimite]\libelle{{\datelimitetxt}} \today}{}
     };
     
     \end{tikzpicture}
@@ -288,29 +313,29 @@
     }
 
 \newcommand{\lignesansTVA}[5]{#1 & #2 & #3 & #4 & #5 \tabularnewline[1ex]}
-\newcommandx{\ligne}[5][2=1,4=\@TVAdefaut,5=0,usedefault]{%
+\newcommandx{\ligne}[5][2=1,5=\@TVAdefaut,4=0,usedefault]{%
     % 1:produit
     % 2:QT (optionnel)
     % 3:prix HT
-    % 4:TVA (optionnel)
-    % 5:Remise (optionnel)
+    % 4:Remise (optionnel)
+    % 5:TVA (optionnel)
     \ifsansTVA
         \fpMul{\prix}{#3}{#2}%
-        \fpSub{\prix}{\prix}{#5}%
+        \fpSub{\prix}{\prix}{#4}%
         \fpAdd{\tot}{\prix}{\tot}%
         \xdef\tot{\tot}%
         \xdef\prix{\prix}%
         %Affichage
-        \lignesansTVA{#1}{#2}{\numprint[\unite]{#3}}{\numprint[\unite]{#5}}{\numprint[\unite]{\prix}}%
+        \lignesansTVA{#1}{#2}{\numprint[\unite]{#3}}{\numprint[\unite]{#4}}{\numprint[\unite]{\prix}}%
     \else
         % Prix hors taxe
         \fpMul{\HT}{#3}{#2}%
-        \fpSub{\HT}{\HT}{#5}%
+        \fpSub{\HT}{\HT}{#4}%
         \xdef\HT{\HT}%retenons
         \fpAdd{\totHT}{\totHT}{\HT}%
         \xdef\totHT{\totHT}%
         % Calcul de la TVA
-        \fpDiv{\centieme}{#4}{100}%
+        \fpDiv{\centieme}{#5}{100}%
         \fpMul{\TVA}{\centieme}{\HT}%
         \xdef\TVA{\TVA}%retenons
         \fpAdd{\totTVA}{\totTVA}{\TVA}%
@@ -321,7 +346,7 @@
         \fpAdd{\totTTC}{\totTTC}{\TTC}%
         \xdef\totTTC{\totTTC}%    
         % Affichage
-        #1 &  #2 &  \numprint[\unite]{#3} & \numprint[\unite]{#5} & \numprint[\unite]{\HT}  & \numprint[\unite]{\TVA} (#4\%) & \numprint[\unite]{\TTC} \tabularnewline[1ex]%
+        #1 &  #2 &  \numprint[\unite]{#3} & \numprint[\unite]{#4} & \numprint[\unite]{\HT}  & \numprint[\unite]{\TVA} (#5\%) & \numprint[\unite]{\TTC} \tabularnewline[1ex]%
     \fi
     \hline
 }
