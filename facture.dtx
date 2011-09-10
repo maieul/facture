@@ -28,43 +28,43 @@
 %\author{Maïeul Rouquette}
 %\maketitle
 %\begin{abstract}
-%Cette classe permet de rédiger facture et devis, avec ou sans TVA, en calculant automatiquement les sommes.
+%Cette classe permet de rédiger factures et devis, avec ou sans TVA, en calculant automatiquement les sommes.
 %
 % Elle fonctionne avec \XeLaTeX{} et non pas \LaTeX{}. 
 %
 % Elle est sous licence Creative Commons - Paternité - Partage des Conditions Initiales à l'identique\footnote{\url{http://creativecommons.org/licenses/by-sa/2.0/fr/}.}.
 %
-% Pour tout demande de corrections ou d'améliorations, merci d'ouvrir un ticket sur github : \url{https://github.com/maieul/facture/issues}.
+% Pour tout demande de corrections ou d'améliorations, merci d'ouvrir un ticket sur Github : \url{https://github.com/maieul/facture/issues}.
 %\end{abstract}
 %\tableofcontents
 %\section{Chargement et configuration}\label{meta}
 %\subsection{Avec ou sans TVA ?}\label{TVA}
-% Le package se charge comme tout les packages. Une option \verb|sansTVA| permet de produire des factures sans gestion de la TVA. Typiquement pour des auto-entrepreneurs.
+% La classe se charge comme toutes les classes. Une option \verb|sansTVA| permet de produire des factures sans gestion de la TVA. Typiquement pour des auto-entrepreneurs.
 % Ainsi :
 %\begin{verbatim}
 %\documentclass[sansTVA]{facture}
 %\end{verbatim}
 %
-% Permet de génerer une facture sans gestion de la TVA. À contrario, 
+% Permet de générer une facture sans gestion de la TVA. À contrario, 
 %\begin{verbatim}
 %\documentclass{facture}
 %\end{verbatim}
 %
-%Permet de générer une facture avec TVA. Celle-ci est définie par défaut à 19,6\%, mais il est possible de modifier le taux, grâce à la commande \DescribeMacro{\TVAdefaut}\cmd{\TVAdefaut}\marg{taux}. Par exemple pour avoir le taux de 5,5 \% :
+%Permet de générer une facture avec TVA. Celle-ci est définie par défaut à 19,6~\%, mais il est possible de modifier le taux, grâce à la commande \DescribeMacro{\TVAdefaut}\cmd{\TVAdefaut}\marg{taux}. Par exemple pour avoir un taux de 5,5~\% :
 %\begin{verbatim}
 %\TVAdefaut{5,5}
 %\end{verbatim}
 %\subsection{Information sur document}
-%Cette classe permet de fabriquer des factures et des devis. Par défaut, elle fabrique des factures. La commande \DescribeMacro{\type}\cmd{\type}\marg{type} permet d'indiquer si on souhaite fabriquer une facture :
+%Cette classe permet de fabriquer des factures et des devis. Par défaut, elle fabrique des factures. La commande \DescribeMacro{\type}\cmd{\type}\marg{type} permet d'indiquer si on souhaite fabriquer une facture ou autre chose :
 %\begin{verbatim}
 %\type{Devis}
 %\end{verbatim}
 %
 % À noter que \meta{type} peut prendre n'importe quelle valeur.
 % 
-% Le document peut prendre un numéro, définie par la commande \DescribeMacro{\numero}\cmd{\numero}\marg{numero}. Il est automatiquement daté du jour de compilation
+% Le document peut avoir un numéro, défini par la commande \DescribeMacro{\numero}\cmd{\numero}\marg{numero}. 
 %
-% Le document est automatiquement daté du jour de la compilation. Toutefois on peut utiliser la commande \DescribeMacro{\date}\cmd{\date}\marg{JJ/MM/AAAA} pour spécifier une date. Il est possible d'indiquer une date limite de paiement via la commande \DescribeMacro{\datelimite}\cmd{\datelimite}\marg{nbjours}. La date limite est calculé en ajoutant \meta{nbjours} à la date du document.
+% Le document est automatiquement daté du jour de la compilation. Toutefois on peut utiliser la commande \DescribeMacro{\date}\cmd{\date}\marg{JJ/MM/AAAA} pour spécifier une date. Il est possible d'indiquer une date limite de paiement via la commande \DescribeMacro{\datelimite}\cmd{\datelimite}\marg{nbjours}. La date limite est calculée en ajoutant \meta{nbjours} à la date du document.
 %\subsection{Information sur l'émetteur}
 % La commande \DescribeMacro{\nomemet}\cmd{\nomemet}\marg{texte} permet d'indiquer le nom de l'émetteur, qui apparaîtra dans l'entête\footnote{On se reportera au fichier \href{exemple.pdf}{exemple} pour des … exemples}. Pour indiquer son adresse, qui apparaîtra dans l'entête mais à droite, on utilise \DescribeMacro{\adresseemet}\cmd{\adresseemet}\marg{texte}. On indique les retours à la ligne par \verb|\\|.
 %
@@ -81,19 +81,19 @@
 %\section{Insertion de texte}
 % La classe étant dérivée de la classe \emph{article}, il est possible d'insérer du texte sectionnable avec les commandes de \emph{article}. Il n'y a pas d'endroit obligatoire pour l'afficher.
 %\section{Insertion de la facture}.
-% Une facture est constituée de lignes indiquant les prix et quantités des différents produits. Chaque ligne s'indique au sein de l'environnement \DescribeEnv{facture}\emph{facture}, via la commande  \DescribeMacro{\ligne}\cmd{\ligne}\marg{produit}\oarg{quantité}\marg{prix unitaire HT}\oarg{remise}\oarg{taux de TVA}.
+% Une facture est constituée de lignes indiquant les prix et quantités des différents produits. Chaque ligne s'appelle au sein de l'environnement \DescribeEnv{facture}\emph{facture}, via la commande  \DescribeMacro{\ligne}\cmd{\ligne}\marg{produit}\oarg{quantité}\marg{prix unitaire HT}\oarg{remise}\oarg{taux de TVA}.
 %
 %\meta{produit} est le nom du produit.
 %\meta{quantité} est la quantité souhaitée. Le nombre peut être entier ou décimal. En l'absence de cet argument, on suppose que le produit n'est présent qu'une fois.
 %\meta{prix unitaire HT} n'est pas à décrire.
 %\meta{remise}s'applique sur le prix total HT.
-%\meta{taux de TVA}: si un produit n'a pas le même taux que celui par défaut (\emph{cf}. section~\ref{TVA}), cet argument permet d'indiquer le taux. Il est exprimé en pourcentage, mais sans le signe \%.
+%\meta{taux de TVA}: si un produit n'a pas le même taux que celui par défaut (\emph{cf}.~section~\ref{TVA}), cet argument permet d'indiquer le taux. Il est exprimé en pourcentage, mais sans le signe \%.
 %
 %
-%Tout les nombres décimaux s'expriment en utilisent la virgule, même si l'usage du point fonctionne également.
+%Tout les nombres décimaux s'expriment en utilisant la virgule, même si l'usage du point fonctionne également.
 %
 % La commande se charge automatiquement  de calculer et d'afficher le prix total HT, la TVA et le prix  total TTC.
-% Le total des produits est affichée avec la fermeture de l'environnement \emph{facture}. Exemple (voir le fichier \href{exemple.pdf}{exemple.pdf} pour le résultat):
+% Le total des produits est affiché avec la fermeture de l'environnement \emph{facture}. Exemple (voir le fichier \href{exemple.pdf}{exemple.pdf} pour le résultat):
 %\begin{verbatim}
 %\begin{facture}
 %\ligne{Produit 1}[2]{25}
@@ -101,31 +101,32 @@
 %\end{facture}
 %\end{verbatim}
 %
-% Dans le cas où l'option \verb|sansTVA| (\emph{cf}. section~\ref{TVA}) a été passée lors de l'appel à la classe, les colonnes ne sont pas les mêmes. Exemples (voir le fichier \href{exemplesansTVA.pdf}{exemplesansTVA.pdf} pour le résultat): 
+% Dans le cas où l'option \verb|sansTVA| (\emph{cf}. section~\ref{TVA}) a été passée lors de l'appel à la classe, les colonnes ne sont pas les mêmes. Exemple (voir le fichier \href{exemplesansTVA.pdf}{exemplesansTVA.pdf} pour le résultat): 
 %\begin{verbatim}
 %\begin{facture}
 %\ligne{Produit 1}[2]{25}
 %\ligne{Produit 2}{10}[][2]
 %\end{facture}
 %\end{verbatim}
-%\section{Texte en dessous des totaux}
+%\subsection{Texte en dessous des totaux}
 % Dans le cas d'une facture sans TVA, l'environnement \emph{facture} indique le texte \enquote{TVA non applicable, art. 293 B}. Il est possible de modifier ce texte, ou d'en ajouter un pour les documents avec TVA, en redéclarant la commande \DescribeMacro{\postTotaux}\cmd{\postTotaux}\marg{texte}. 
 %\begin{verbatim}
 %\renewcommand{\postTotaux}{\hfill un joli texte}
 %\end{verbatim}
-%\section{Personalisation}
-% Plusieurs possibilités de personalisation existent, en rédéfinissant des commandes et ou des couleurs. J'invite à lire le code pour savoir lesquels.
+%\section{Personnalisation}
+% Plusieurs possibilités de personnalisation existent, en redéfinissant des commandes et/ou des couleurs. J'invite à lire le code pour savoir lesquels.
 %\begin{itemize}
 %\item Pour les couleurs et les mise en valeurs des textes, voir section~\ref{apparence}.
 %\item Pour les réglages concernant les mathématiques (arrondis par exemple), voir section~\ref{math}.
 %\item Pour les textes, voir section~\ref{texte}.
 %\item Pour  le pieds de page, voir section~\ref{pied}.
+%\item Pour l'affichage de la TVA, voir p.~\pageref{afficheTVA}
 %\end{itemize}
 %\StopEventually{}
 %\section{Documentation du code}
 %\subsection{Chargement des packages}
-%    \begin{macrocode}
 %<*facture>
+%    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{facture}[2011/09/10 v1.0]
 \LoadClass{article}%On se base sur la classe article
@@ -135,7 +136,7 @@
 \setmainlanguage{french}
 \RequirePackage{numprint}%Pour gérer l'affichage des nombres
 \RequirePackage{fltpoint}% Pour faire les calculs dans le tableau
-\RequirePackage{tikz} % tikz est utilise pour tracer des boites, par exemple
+\RequirePackage{tikz} % tikz est utilisé pour tracer des boites, par exemple
 \RequirePackage{graphicx} % Pour insérer des images. Utiliser le format jpg pour plus de simplicité.
 \RequirePackage{fancyhdr} % Pour entête et pied de page
 \RequirePackage[paper=a4paper,top=2 cm, bottom=2 cm, left=1.5 cm, right=2.5 cm]{geometry} % On peut modifier ces valeurs pour augmenter ou réduire les marges. 
@@ -227,7 +228,7 @@
 %\subsection{Génération de l'entête}
 % On se base sur le package \emph{TikZ} pour le générer.
 %
-% Tout d'abord afficher le nom et l'adresse de l'émetter
+% Tout d'abord afficher le nom et l'adresse de l'émetteur
 %    \begin{macrocode}
 \newcommand{\entete}{
 
@@ -243,7 +244,7 @@
         };
 %    \end{macrocode}    
 %
-%Ensuite déterminer la place que cela prend, puis tracé l'encadré.
+%Ensuite déterminer la place que cela prend, puis tracer l'encadré.
 %    \begin{macrocode}
     \coordinate[xshift=-1\textwidth,yshift=1ex] (a) at (b.north);
     \coordinate[xshift=1em,yshift=-1ex] (c) at (b.south);
@@ -270,7 +271,7 @@
     \begin{tikzpicture}
 %    \end{macrocode}
 %
-%Ensuite afficher les informations sur le destinataires. Des tests permettent d'afficher ou non la livraison séparement de  la facture, en fonction de ce qu'a défini l'utilisateur (\emph{cf}.~section~\ref{dest}).
+%Ensuite afficher les informations sur le destinataire. Des tests permettent d'afficher ou non la livraison séparement de  la facture, en fonction de ce qu'a défini l'utilisateur (\emph{cf}.~section~\ref{dest}).
 %    \begin{macrocode}
     
 
@@ -347,12 +348,12 @@
     
     }%
 %    \end{macrocode}
-%Le contenu du tableau est généré par les commandes \cmd{ligne}. Lorsqu'on ferme l'environnement \emph{facture}, on ferme le tableau
+%Le contenu du tableau est généré par les commandes \cmd{\ligne}. Lorsqu'on ferme l'environnement \emph{facture}, on ferme le tableau
 %    \begin{macrocode}
 {%
     \end{longtable}
 %    \end{macrocode}
-%On affiche ensuite les Totaux, qu'on place grâce à \emph{TikZ}. Le cercle de 0,001 de diamètre sert à faire prendre à la figure beamer le plus de place possible, pour que les textes soient alignés à droite.
+%On affiche ensuite les totaux, qu'on place grâce à \emph{TikZ}. Le cercle de 0,001 de diamètre sert à faire prendre à la figure beamer le plus de place possible, pour que les textes soient alignés à droite.
 %    \begin{macrocode}    
     \begin{tikzpicture}
     \draw[color=white] (0,0) circle (0.001);    
@@ -370,11 +371,11 @@
     }
 %    \end{macrocode}
 %\end{environment}
-% On a besoin de définir une commande \cmd{\lignesansTVA} pour afficher le contenu d'une ligne lorsqu'on a pas de TVA. En effet, dès qu'on change de cellule, les textes conditionnels sont perdus.
+% On a besoin de définir une commande \cmd{\lignesansTVA} pour afficher le contenu d'une ligne lorsqu'on n'a pas de TVA. En effet, dès qu'on change de cellule, les tests conditionnels sont perdus.
 %    \begin{macrocode}
 \newcommand{\lignesansTVA}[5]{#1 & #2 & #3 & #4 & #5 \tabularnewline[1ex]}
 %    \end{macrocode}
-%La commande \cmd{\afficheTVA} sert à afficher la TVA dans le tableau. En n'indiquant pas directement dans le code de \cmd{\ligne}, on permet de la personaliser plus facilement. \label{afficheTVA}
+%La commande \cmd{\afficheTVA} sert à afficher la TVA dans le tableau. En ne l'indiquant pas directement dans le code de \cmd{\ligne}, on permet de  personnaliser plus facilement l'affichage de la TVA. \label{afficheTVA}
 %    \begin{macrocode}
 \newcommand{\afficheTVA}[1]{\raggedleft{\numprint[\%]{#1}}  \hfill $\triangleright$  \numprint[\unite]{\TVA}}
 %    \end{macrocode}
@@ -418,7 +419,7 @@
 }
 %    \end{macrocode}
 %\subsection{Apparence du pied}\label{pied}
-%On se base sur le package \emph{fancyhdr} pour personaliser le pied.
+%On se base sur le package \emph{fancyhdr} pour personnaliser le pied.
 %    \begin{macrocode}
 \pagestyle{fancy}
 \fancyhf{}
