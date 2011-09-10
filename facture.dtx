@@ -62,7 +62,9 @@
 %
 % À noter que \marg{type} peut prendre n'importe quelle valeur.
 %\subsection{Information sur l'émetteur}
-% La commande \cmd{\nomemet}\marg{texte} permet d'indiquer le nom de l'émetteur, qui apparaîtra dans l'entête\footnote{On se reportera au fichier \href{exemple.pdf}{exemple} pour des … exemples}. Pour indiquer son adresse, qui apparaîtra dans l'entête mais à droite, on utilise \cmd{adresseemet}\marg{texte}. On indique les retours à la ligne par \verb|\\|.
+% La commande \DescribeMacro{\nomemet}\cmd{\nomemet}\marg{texte} permet d'indiquer le nom de l'émetteur, qui apparaîtra dans l'entête\footnote{On se reportera au fichier \href{exemple.pdf}{exemple} pour des … exemples}. Pour indiquer son adresse, qui apparaîtra dans l'entête mais à droite, on utilise \DescribeMacro{\adresseemet}\cmd{\adresseemet}\marg{texte}. On indique les retours à la ligne par \verb|\\|.
+%
+% Il existe également une commande \DescribeMacro{\pied}\cmd{\pied}\marg{texte} qui provoque l'affichage de \meta{texte} à droite du pied de page, sur toutes les pages. 
 %
 %
 %    \begin{macrocode}
