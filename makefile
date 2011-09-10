@@ -1,5 +1,10 @@
 .PHONY:all clean
 
+all:facture.pdf exemple.pdf exemplesansTVA.pdf
+	zip facture.zip facture.ins facture.dtx *pdf README makefile
+
+
+
 %.cls:%.ins %.dtx
 	@xelatex $*.ins
 facture.pdf:facture.cls facture.dtx
@@ -10,8 +15,7 @@ facture.pdf:facture.cls facture.dtx
 	
 %.pdf:%.tex facture.cls
 	@xelatex $*	
-all:facture.pdf exemple.pdf exemplesanstva.pdf
-	zip facture.zip facture.ins facture.dtx *pdf README makefile
 
 clean:
 	rm -f *out *aux *log *pdf *glo *zip *cls *ilg *idx *gls  *toc
+
