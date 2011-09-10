@@ -11,7 +11,7 @@ facture.pdf:facture.cls facture.dtx
 %.pdf:%.tex facture.cls
 	@xelatex $*	
 all:facture.pdf exemple.pdf exemplesanstva.pdf
-	zip facture.zip facture.ins facture.dtx *pdf README
+	zip facture.zip facture.ins facture.dtx *pdf README makefile
 
 clean:
 	rm -f *out *aux *log *pdf *glo *zip *cls *ilg *idx *gls  *toc
