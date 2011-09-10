@@ -14,4 +14,4 @@ all:facture.pdf exemple.pdf exemplesanstva.pdf
 	zip facture.zip facture.ins facture.dtx *pdf
 
 clean:
-	rm -f *out *aux *log *pdf *glo *zip *cls
+	rm -f *out *aux *log *pdf *glo *zip *cls *ilg *idx *gls *ins *toc
