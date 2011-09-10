@@ -1,1 +1,7 @@
-Projet de classe LaTeX de facture, sous licence Créative Commons - partage des conditions initiales à l'identique - Paternité
+Classe XeLaTeX de facture, sous licence Créative Commons - partage des conditions initiales à l'identique - Paternité.
+
+http://creativecommons.org/licenses/by-sa/2.0/fr/
+
+La documentation se situe dans le fichier PDF généré lors de la compilation  XELATEX du fichier .dtx
+
+Pour tout demande de corrections ou d'améliorations, merci d'ouvrir un ticket sur Github : https://github.com/maieul/facture/issues.
