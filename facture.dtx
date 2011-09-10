@@ -115,6 +115,13 @@
 %\renewcommand{\postTotaux}{\hfill un joli texte}
 %\end{verbatim}
 %\section{Personalisation}
+% Plusieurs possibilités de personalisation existent, en rédéfinissant des commandes et ou des couleurs. J'invite à lire le code pour savoir lesquels.
+%\begin{itemize}
+%\item Pour les couleurs et les mise en valeurs des textes, voir section~\ref{apparence}.
+%\item Pour les réglages concernant les mathématiques (arrondis par exemple), voir section~\ref{math}.
+%\item Pour les textes, voir section~\ref{texte}.
+%\item Pour  le pieds de page, voir section~\ref{pied}.
+%\end{itemize}
 %\StopEventually{}
 %\section{Documentation du code}
 %\subsection{Chargement des packages}
@@ -187,7 +194,7 @@
     \newcommand{\postTotaux}{}
 \fi
 %    \end{macrocode}
-%\subsection{Réglages mathématiques}
+%\subsection{Réglages mathématiques}\label{math}
 %On régle ici les paramètres mathématiques, définissables avec le package \emph{numprint}.
 % Tout d'abord on dit qu'on veut avoir les zéros finaux.
 %    \begin{macrocode}
@@ -411,7 +418,7 @@
     \hline
 }
 %    \end{macrocode}
-%\subsection{Apparence du pied}
+%\subsection{Apparence du pied}\label{pied}
 %On se base sur le package \emph{fancyhdr} pour personaliser le pied.
 %    \begin{macrocode}
 \pagestyle{fancy}
