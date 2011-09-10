@@ -6,7 +6,6 @@
 % \iffalse
 %<*driver>
 \ProvidesFile{facture.dtx}
-
 \documentclass{ltxdoc}
 \usepackage{fontspec}
 \usepackage{xunicode}
@@ -18,6 +17,7 @@
 \EnableCrossrefs
 \RecordChanges
 \begin{document}
+   \raggedbottom
   \DocInput{facture.dtx}
 \end{document}
 %</driver>
@@ -38,7 +38,7 @@
 % Pour tout demande de corrections ou d'améliorations, merci d'ouvrir un ticket sur github : \url{https://github.com/maieul/facture/issues}.
 %\end{abstract}
 %\tableofcontents
-%\section{Chargement et configuration}
+%\section{Chargement et configuration}\label{meta}
 %\subsection{Avec ou sans TVA ?}\label{TVA}
 % Le package se charge comme tout les packages. Une option \verb|sansTVA| permet de produire des factures sans gestion de la TVA. Typiquement pour des auto-entrepreneurs.
 % Ainsi :
@@ -71,7 +71,7 @@
 %
 % Il existe également une commande \DescribeMacro{\pied}\cmd{\pied}\marg{texte} qui provoque l'affichage de \meta{texte} à droite du pied de page, sur toutes les pages. 
 %
-%\subsection{Information sur le destinataire}
+%\subsection{Information sur le destinataire}%\label{dest}
 % Le destinataire peut avoir deux adresses : une adresse de livraison et une de facturation. Seule la première est obligatoire. Si la seconde est absente, la classe considère qu'il s'agit de la même adresse. À la différence de l'émetteur, le nom du destinataire s'indique en même temps que l'adresse.
 %
 %L'adresse de livraison se définie via la commande \DescribeMacro{\dest}\cmd{\dest}\marg{adresse}, l'adresse de facturation via \DescribeMacro{\fact}\marg{adresse}. Encore une fois, les différentes lignes de l'adresse doivent être séparées par \verb|\\|.
@@ -114,43 +114,50 @@
 %\begin{verbatim}
 %\renewcommand{\postTotaux}{\hfill un joli texte}
 %\end{verbatim}
-%    \begin{macrocode}
-%    \end{macrocode} 
+%\section{Personalisation}
+%\StopEventually{}
+%\section{Documentation du code}
+%\subsection{Chargement des packages}
 %\begin{macrocode}
+%<*facture>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{facture}[2011/09/10 v1.0]
-\LoadClass{article}
+\LoadClass{article}%On se base sur la classe article
 \RequirePackage{fontspec}    
 \RequirePackage{xunicode}
 \RequirePackage{polyglossia}
 \setmainlanguage{french}
-\RequirePackage{numprint}
+\RequirePackage{numprint}%Pour gérer l'affichage des nombres
 \RequirePackage{fltpoint}% Pour faire les calculs dans le tableau
 \RequirePackage{tikz} % tikz est utilise pour tracer des boites, par exemple
 \RequirePackage{graphicx} % Pour insérer des images. Utiliser le format jpg pour plus de simplicité.
 \RequirePackage{fancyhdr} % Pour entête et pied de page
-\RequirePackage{pifont} % Pour utiliser des symboles divers.
 \RequirePackage[paper=a4paper,top=2 cm, bottom=2 cm, left=1.5 cm, right=2.5 cm]{geometry} % On peut modifier ces valeurs pour augmenter ou réduire les marges. 
 \RequirePackage{ifthen}
 \RequirePackage{array}
 \RequirePackage{longtable}
-\RequirePackage{advdate}
-\RequirePackage{etoolbox}
-\RequirePackage{xargs}
 \RequirePackage{colortbl}
+\RequirePackage{advdate}%Pour manipuler les dates
+\RequirePackage{xargs}%Pour des arguments conditionnels
 %\end{macrocode}
+%\subsection{Option sansTVA}
 %\begin{macrocode}
 \newif\ifsansTVA
 \sansTVAfalse
 \DeclareOption{sansTVA}{\sansTVAtrue}
 \ProcessOptions
-
+%\end{macrocode}
+%\subsection{Apparence}\label{apparence}
+% On définit ici les couleurs, l'écartement des colonnes, et l'apparences des libellés. 
+%\begin{macrocode}
 \definecolor{entetes}{HTML}{888888}
 \definecolor{encadre}{RGB}{111,111,111}
 \newcommand{\libelle}[1]{\textcolor{entetes}{\textbf#1}}
-
-
-
+\setlength{\tabcolsep}{1pt}
+%\end{macrocode}
+%\subsection{Textes}\label{texte}
+%\subsubsection{Invariants}
+%\begin{macrocode}
 \newcommand{\codeclient}{Code client :}
 \newcommand{\datetxt}{Date:}
 \newcommand{\datelimitetxt}{À payer avant:}
@@ -159,12 +166,13 @@
 \newcommand{\livraison}{Livraison}
 \newcommand{\livraisonfacturation}{Livraison et Facturation}
 \newcommand{\ntxt}{~n°}
-
 \newcommand{\produit}{Produit}
 \newcommand{\quantite}{Quantité}
 \newcommand{\remise}{Remise}
 \newcommand{\unite}{€}
-
+%\end{macrocode}
+%\subsubsection{Dépend du réglage sur la TVA (\emph{cf}.~section~\ref{TVA})
+%\begin{macrocode}
 \ifsansTVA%
     \newcommand{\tottxt}{Total}
     \newcommand{\prixtxt}{Prix}
@@ -178,15 +186,26 @@
     \newcommand{\totTTCtxt}{Total TTC}
     \newcommand{\postTotaux}{}
 \fi
-
-
+%\end{macrocode}
+%\section{Réglages mathématiques}
+%On régle ici les paramètres mathématiques, définissables avec le package \emph{numprint}.
+% Tout d'abord on dit qu'on veut avoir les zéros finaux.
+%\begin{macrocode}
 \npaddmissingzero
+%\end{macrocode}
+% Puis on dit qu'on arrondis à deux chiffres après la virgule.
+%\begin{macrocode}
 \nprounddigits{2}
+%\end{macrocode}
+%\section{Quelques réglages standards}
+% Ici on régle la TVA par défaut et le type de document
+%\begin{macrocode}
 \gdef\@TVAdefaut{19,6}
-
-
-
 \gdef\@type{\facturetxt}
+%\end{macrocode}
+%\section{Méta-données}
+%Toutes ces commandes sont appelées par l'utilisateurs au tout début (\emph{cf}.~section~\ref{meta}). La plupart stockent dans une commande commençant par @ le code qui est passé.
+%\begin{macrocode}
 \renewcommand{\date}[1]{\SetDate[#1]}
 \newcommand{\TVAdefaut}[1]{\gdef\@TVAdefaut{#1}}
 \newcommand{\datelimite}[1]{\newcommand{\@datelimite}{#1}}
@@ -197,12 +216,15 @@
 \newcommand{\type}[1]{\gdef\@type{#1}}
 \newcommand{\numero}[1]{\gdef\@numero{#1}}
 \newcommand{\codedest}[1]{\gdef\@codedest{#1}}
-\newcommand{\pied}[1]{\rfoot{#1}}
-\setlength{\tabcolsep}{1pt}
+%\end{macrocode}
 
-
+%\section{Génération de l'entête}
+% On se base sur le package \emph{TikZ} pour le générer.
+%
+% Tout d'abord afficher le nom et l'adresse de l'émetter
+%\begin{macrocode}
 \newcommand{\entete}{
-    
+
     
     \noindent\begin{tikzpicture}
     
@@ -213,14 +235,19 @@
         \noindent\node (b)[xshift=0.5\textwidth,text width=0.5\textwidth, right]{%
             \@adresseemet%
         };
-    
-    % Détermination des coordonnées du rectangle, en fonction de l'adresse
+%\end{macrocode}    
+%
+%Ensuite déterminer la place que cela prend, puis tracé l'encadré.
+%\begin{macrocode}
     \coordinate[xshift=-1\textwidth,yshift=1ex] (a) at (b.north);
     \coordinate[xshift=1em,yshift=-1ex] (c) at (b.south);
     \draw[color=encadre,line width=1.5mm] (a) rectangle  (c);
-
-%    \draw (b.north west) rectangle (b) ;
     \end{tikzpicture}
+%\end{macrocode}
+%
+%Ensuite afficher le titre, avec un peu d'espace avant et après, en le chassant à droite.
+%\begin{macrocode}
+
         
     
     \vspace{3ex}    
@@ -235,6 +262,10 @@
     \vspace{3ex}    
     
     \begin{tikzpicture}
+%\end{macrocode}
+%
+%Ensuite afficher les informations sur le destinataires. Des tests permettent d'afficher ou non la livraison séparement de  la facture, en fonction de ce qu'a défini l'utilisateur (\emph{cf}.~section~\ref{dest}).
+%\begin{macrocode}
     
 
     \ifdef{\@fact}{
@@ -251,6 +282,10 @@
             
         \@dest
     };
+%\end{macrocode}
+%
+% On affiche finalement les dates, le numéro de la facture et le code client.
+%\begin{macrocode}
     \node[text width=0.33\textwidth,xshift=0.66\textwidth,anchor=base]{
         \libelle{{\datetxt}} \today    \\
         \ifdef{\@numero}{%
@@ -267,14 +302,10 @@
     
 
 }
-
-
-\pagestyle{fancy}
-\fancyhf{}
-\renewcommand{\headrule}{\relax}
-\lfoot{\ifnumgreater{\thepage}{1}{\thepage}{}}
-
-
+%\end{macrocode}
+%\subsection{Le tableau de facturation}
+% On commence par définir des variables globales qui servent à stocker les totaux généraux
+%\begin{macrocode}
 \ifsansTVA
     \xdef\tot{}
 \else
@@ -282,7 +313,16 @@
     \xdef\totHT{}
     \xdef\totTTC{}
 \fi
+%\end{macrocode}
+%
+%On définit ensuite un nouveau type de colonne, avec un alignement à droite
+%\begin{macrocode}
 \newcolumntype{P}[1]{>{\raggedleft}p{#1}}
+%\end{macrocode}
+%On  définit ensuite l'environnement \emph{facture}.
+%\begin{environment}{facture}
+% Tout d'abord on affiche l'entête, selon qu'on soit avec ou sans TVA
+%\begin{macrocode}
 \newenvironment{facture}{%
     \setlength{\extrarowheight}{0.5ex}
     \setlength{\tabcolsep}{0.5em}
@@ -299,10 +339,15 @@
     \endhead%
     \endfoot%
     
-    }{%
-
+    }%
+%\end{macrocode}
+%Le contenu du tableau est généré par les commandes \cmd{ligne}. Lorsqu'on ferme l'environnement \emph{facture}, on ferme le tableau
+%\begin{macrocode}
+{%
     \end{longtable}
-    
+%\end{macrocode}
+%On affiche ensuite les Totaux, qu'on place grâce à \emph{TikZ}. Le cercle de 0,001 de diamètre sert à faire prendre à la figure beamer le plus de place possible, pour que les textes soient alignés à droite.
+%\begin{macrocode}    
     \begin{tikzpicture}
     \draw[color=white] (0,0) circle (0.001);    
         \node[right,xshift=0.66\textwidth,text width=0.33\textwidth]{%
@@ -317,16 +362,23 @@
     \end{tikzpicture}
     
     }
-
+%\end{macrocode}
+%end{environment}
+% On a besoin de définir une commande \cmd{\lignesansTVA} pour afficher le contenu d'une ligne lorsqu'on a pas de TVA. En effet, dès qu'on change de cellule, les textes conditionnels sont perdus.
+%\begin{macrocode}
 \newcommand{\lignesansTVA}[5]{#1 & #2 & #3 & #4 & #5 \tabularnewline[1ex]}
+%\end{macrocode}
+%La commande \cmd{\afficheTVA} sert à afficher la TVA dans le tableau. En n'indiquant pas directement dans le code de \cmd{\ligne}, on permet de la personaliser plus facilement. \label{afficheTVA}
+%\begin{macrocode}
 \newcommand{\afficheTVA}[1]{\raggedleft{\numprint[\%]{#1}}  \hfill $\triangleright$  \numprint[\unite]{\TVA}}
-
+%\end{macrocode}
+%
+% Voici maintenant la commande \cmd{\ligne}. Pour gérer les arguments optionnels, on se sert du package \emph{xargs}.
+%\begin{macrocode}
 \newcommandx{\ligne}[5][2=1,5=\@TVAdefaut,4=0,usedefault]{%
-    % 1:produit
-    % 2:QT (optionnel)
-    % 3:prix HT
-    % 4:Remise (optionnel)
-    % 5:TVA (optionnel)
+%\end{macrocode}
+% On procède aux calculs grâce au package \emph{fltpoint}, on affiche les résultat grâce au package \emph{numprint}.
+%\begin{macrocode}
     \ifsansTVA
         \fpMul{\prix}{#3}{#2}%
         \fpSub{\prix}{\prix}{#4}%
@@ -359,9 +411,17 @@
     \hline
 }
 %\end{macrocode}
-%    \begin{macrocode}
-%    \end{macrocode}
+%\subsection{Apparence du pied}
+%On se base sur le package \emph{fancyhdr} pour personaliser le pied.
+%\begin{macrocode}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrule}{}%Pas de règle après l'entête
+\lfoot{\ifnumgreater{\thepage}{1}{\thepage}{}}%Indiquer le numéro de page, sauf sur la première
+\newcommand{\pied}[1]{\rfoot{#1}}%Le pied définissable par l'utilisateur
+%\end{macrocode}
+%</facture>
 % \PrintChanges
 %\Finale
-
+%\endinput
 \endinput
