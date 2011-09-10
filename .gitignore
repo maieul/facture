@@ -1,2 +1,9 @@
-facture.cls
-test.tex
+*.cls
+*.aux
+*.out
+*.pdf
+*.toc
+*.log
+*.glo
+*.gls
+*.ilg
