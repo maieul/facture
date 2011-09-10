@@ -71,6 +71,11 @@
 % Il existe également une commande \DescribeMacro{\pied}\cmd{\pied}\marg{texte} qui provoque l'affichage de \meta{texte} à droite du pied de page, sur toutes les pages. 
 %
 %\subsection{Information sur le destinataire}
+% Le destinataire peut avoir deux adresses : une adresse de livraison et une de facturation. Seule la première est obligatoire. Si la seconde est absente, la classe considère qu'il s'agit de la même adresse. À la différence de l'émetteur, le nom du destinataire s'indique en même temps que l'adresse.
+%
+%L'adresse de livraison se définie via la commande \DescribeMacro{\dest}\cmd{\dest}\marg{adresse}, l'adresse de facturation via \DescribeMacro{\fact}\marg{adresse}. Encore une fois, les différentes lignes de l'adresse doivent être séparées par \verb|\\|.
+%
+% Il est possible d'affecter un code au client, via la commande DescribeMacro{\codeclient}\cmd{\codeclient}\marg{code}.
 %    \begin{macrocode}
 %    \end{macrocode} 
 %\begin{macrocode}
