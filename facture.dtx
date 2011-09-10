@@ -319,6 +319,8 @@
     }
 
 \newcommand{\lignesansTVA}[5]{#1 & #2 & #3 & #4 & #5 \tabularnewline[1ex]}
+\newcommand{\afficheTVA}[1]{\raggedleft{\numprint[\%]{#1}}  \hfill $\triangleright$  \numprint[\unite]{\TVA}}
+
 \newcommandx{\ligne}[5][2=1,5=\@TVAdefaut,4=0,usedefault]{%
     % 1:produit
     % 2:QT (optionnel)
@@ -352,7 +354,7 @@
         \fpAdd{\totTTC}{\totTTC}{\TTC}%
         \xdef\totTTC{\totTTC}%    
         % Affichage
-        #1 &  #2 &  \numprint[\unite]{#3} & \numprint[\unite]{#4} & \numprint[\unite]{\HT}  & \numprint[\unite]{\TVA} (#5\%) & \numprint[\unite]{\TTC} \tabularnewline[1ex]%
+        #1 &  #2 &  \numprint[\unite]{#3} & \numprint[\unite]{#4} & \numprint[\unite]{\HT}  & \afficheTVA{#5} & \numprint[\unite]{\TTC} \tabularnewline[1ex]%
     \fi
     \hline
 }
