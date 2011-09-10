@@ -54,19 +54,23 @@
 %\begin{verbatim}
 %\TVAdefaut{5,5}
 %\end{verbatim}
-%\subsection{Type de document}
+%\subsection{Information sur document}
 %Cette classe permet de fabriquer des factures et des devis. Par défaut, elle fabrique des factures. La commande \DescribeMacro{\type}\cmd{\type}\marg{type} permet d'indiquer si on souhaite fabriquer une facture :
 %\begin{verbatim}
 %\type{Devis}
 %\end{verbatim}
 %
 % À noter que \meta{type} peut prendre n'importe quelle valeur.
+% 
+% Le document peut prendre un numéro, définie par la commande \DescribeMacro{\numero}\cmd{\numero}\marg{numero}. Il est automatiquement daté du jour de compilation
+%
+% Le document est automatiquement daté du jour de la compilation. Toutefois on peut utiliser la commande \DescribeMacro{\date}\cmd{\date}\marg{JJ/MM/AAAA} pour spécifier une date. Il est possible d'indiquer une date limite de paiement via la commande \DescribeMacro{\datelimite}\cmd{\datelimite}\marg{nbjours}. La date limite est calculé en ajoutant \meta{nbjours} à la date du document.
 %\subsection{Information sur l'émetteur}
 % La commande \DescribeMacro{\nomemet}\cmd{\nomemet}\marg{texte} permet d'indiquer le nom de l'émetteur, qui apparaîtra dans l'entête\footnote{On se reportera au fichier \href{exemple.pdf}{exemple} pour des … exemples}. Pour indiquer son adresse, qui apparaîtra dans l'entête mais à droite, on utilise \DescribeMacro{\adresseemet}\cmd{\adresseemet}\marg{texte}. On indique les retours à la ligne par \verb|\\|.
 %
 % Il existe également une commande \DescribeMacro{\pied}\cmd{\pied}\marg{texte} qui provoque l'affichage de \meta{texte} à droite du pied de page, sur toutes les pages. 
 %
-%
+%\subsection{Information sur le destinataire}
 %    \begin{macrocode}
 %    \end{macrocode} 
 %\begin{macrocode}
@@ -140,7 +144,7 @@
 
 
 \gdef\@type{\facturetxt}
-
+\renewcommand{\date}[1]{\SetDate[#1]}
 \newcommand{\TVAdefaut}[#1]{\gdef\@TVAdefaut{#1}}
 \newcommand{\datelimite}[1]{\newcommand{\@datelimite}{#1}}
 \newcommand{\dest}[1]{\newcommand{\@dest}{#1}}
@@ -205,7 +209,7 @@
         \@dest
     };
     \node[text width=0.33\textwidth,xshift=0.66\textwidth,anchor=base]{
-        \libelle{{\datetxt}} \@date    \\
+        \libelle{{\datetxt}} \today    \\
         \ifdef{\@numero}{%
             \libelle{{\@type\ntxt}} \@numero        
         }{}
@@ -213,7 +217,7 @@
         \ifdef{\@codedest}{%
             \libelle{{\codeclient}} \@codedest        
         }{}
-        \ifdef{\@datelimite}{\\\AdvanceDate[\@datelimite]\libelle{{\datelimitetxt}} \@date}{}
+        \ifdef{\@datelimite}{\\\AdvanceDate[\@datelimite]\libelle{{\datelimitetxt}} \@today}{}
     };
     
     \end{tikzpicture}
