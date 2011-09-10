@@ -12,6 +12,7 @@
 \usepackage{xunicode}
 \usepackage[frenchb]{babel}
 \usepackage{hyperref}
+\usepackage{csquotes}
 \setmainfont[Mapping=tex-text]{Linux Libertine O}
 \usepackage{bidi}
 \EnableCrossrefs
@@ -107,6 +108,11 @@
 %\ligne{Produit 1}[2]{25}
 %\ligne{Produit 2}{10}[][2]
 %\end{facture}
+%\end{verbatim}
+%\section{Texte en dessous des totaux}
+% Dans le cas d'une facture sans TVA, l'environnement \emph{facture} indique le texte \enquote{TVA non applicable, art. 293 B}. Il est possible de modifier ce texte, ou d'en ajouter un pour les documents avec TVA, en redéclarant la commande \DescribeMacro{\postTotaux}\cmd{\postTotaux}\marg{texte}. 
+%\begin{verbatim}
+%\renewcommand{\postTotaux}{\hfill un joli texte}
 %\end{verbatim}
 %    \begin{macrocode}
 %    \end{macrocode} 
