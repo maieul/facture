@@ -120,11 +120,10 @@
 %\item Pour les réglages concernant les mathématiques (arrondis par exemple), voir section~\ref{math}.
 %\item Pour les textes, voir section~\ref{texte}.
 %\item Pour  le pieds de page, voir section~\ref{pied}.
-%\item Pour l'affichage de la TVA, voir p.~\pageref{afficheTVA}
+%\item Pour l'affichage de la TVA, voir section~\ref{afficheTVA} p.~\pageref{afficheTVA}
 %\end{itemize}
 %
 %Pour personnaliser la taille du papier et celle des marges, on peut utiliser le package \emph{geometry}.
-%
 %\StopEventually{}
 %\section{Documentation du code}
 %\subsection{Chargement des packages}
@@ -377,6 +376,7 @@
 \newcommand{\lignesansTVA}[5]{#1 & #2 & #3 & #4 & #5 \tabularnewline[1ex]}
 %    \end{macrocode}
 %La commande \cmd{\afficheTVA} sert à afficher la TVA dans le tableau. En ne l'indiquant pas directement dans le code de \cmd{\ligne}, on permet de  personnaliser plus facilement l'affichage de la TVA. \label{afficheTVA}
+
 %    \begin{macrocode}
 \newcommand{\afficheTVA}[1]{\raggedleft{\numprint[\%]{#1}}  \hfill $\triangleright$  \numprint[\unite]{\TVA}}
 %    \end{macrocode}
