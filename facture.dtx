@@ -139,7 +139,6 @@
 \RequirePackage{tikz} % tikz est utilisé pour tracer des boites, par exemple
 \RequirePackage{graphicx} % Pour insérer des images. Utiliser le format jpg pour plus de simplicité.
 \RequirePackage{fancyhdr} % Pour entête et pied de page
-\RequirePackage{ifthen}
 \RequirePackage{array}
 \RequirePackage{longtable}
 \RequirePackage{colortbl}
@@ -423,7 +422,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrule}{}%Pas de règle après l'entête
-\lfoot{\ifnumgreater{\thepage}{1}{\thepage}{}}%Indiquer le numéro de page, sauf sur la première
+\lfoot{\ifnum \value{page}>1 \thepage\fi}%Indiquer le numéro de page, sauf sur la première
 \newcommand{\pied}[1]{\rfoot{#1}}%Le pied définissable par l'utilisateur
 %    \end{macrocode}
 %</facture>
