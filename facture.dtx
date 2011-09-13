@@ -207,22 +207,22 @@
 %\subsection{Quelques réglages standards}
 % Ici on régle la TVA par défaut et le type de document
 %    \begin{macrocode}
-\gdef\@TVAdefaut{19,6}
-\gdef\@type{\facturetxt}
+\def\@TVAdefaut{19,6}
+\def\@type{\facturetxt}
 %    \end{macrocode}
 %\subsection{Méta-données}
 %Toutes ces commandes sont appelées par l'utilisateurs au tout début (\emph{cf}.~section~\ref{meta}). La plupart stockent dans une commande commençant par @ le code qui est passé.
 %    \begin{macrocode}
 \renewcommand{\date}[1]{\SetDate[#1]}
-\newcommand{\TVAdefaut}[1]{\gdef\@TVAdefaut{#1}}
-\newcommand{\datelimite}[1]{\newcommand{\@datelimite}{#1}}
-\newcommand{\dest}[1]{\newcommand{\@dest}{#1}}
-\newcommand{\fact}[1]{\newcommand{\@fact}{#1}}
-\newcommand{\adresseemet}[1]{\gdef\@adresseemet{#1}}
-\newcommand{\nomemet}[1]{\gdef\@nomemet{#1}}
-\newcommand{\type}[1]{\gdef\@type{#1}}
-\newcommand{\numero}[1]{\gdef\@numero{#1}}
-\newcommand{\codedest}[1]{\gdef\@codedest{#1}}
+\newcommand{\TVAdefaut}[1]{\def\@TVAdefaut{#1}}
+\newcommand{\datelimite}[1]{\def\@datelimite{#1}}
+\newcommand{\dest}[1]{\def\@dest{#1}}
+\newcommand{\fact}[1]{\def\@fact{#1}}
+\newcommand{\adresseemet}[1]{\def\@adresseemet{#1}}
+\newcommand{\nomemet}[1]{\def\@nomemet{#1}}
+\newcommand{\type}[1]{\def\@type{#1}}
+\newcommand{\numero}[1]{\def\@numero{#1}}
+\newcommand{\codedest}[1]{\def\@codedest{#1}}
 %    \end{macrocode}
 
 %\subsection{Génération de l'entête}
