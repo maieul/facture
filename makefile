@@ -1,7 +1,7 @@
 .PHONY:all clean
 
 all:facture.pdf exemple.pdf exemplesansTVA.pdf
-	zip facture.zip facture.ins facture.dtx *pdf README makefile
+	zip facture.zip facture.ins facture.dtx *pdf README makefile *.tex
 
 
 
