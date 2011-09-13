@@ -422,11 +422,14 @@
 %\subsection{Apparence du pied}\label{pied}
 %On se base sur le package \emph{fancyhdr} pour personnaliser le pied.
 %    \begin{macrocode}
-\pagestyle{fancy}
-\fancyhf{}
-\renewcommand{\headrule}{}%Pas de règle après l'entête
-\lfoot{\ifnum \value{page}>1 \thepage\fi}%Indiquer le numéro de page, sauf sur la première
-\newcommand{\pied}[1]{\rfoot{#1}}%Le pied définissable par l'utilisateur
+\AtBeginDocument{
+	\pagestyle{fancy}
+	\fancyhf{}
+	\renewcommand{\headrule}{}%Pas de règle après l'entête
+	\lfoot{\ifnum \value{page}>1 \thepage\fi}%Indiquer le numéro de page, sauf sur la première
+	\rfoot{\@pied}
+}
+\newcommand{\pied}[1]{\def\@pied{#1}}%Le pied définissable par l'utilisateur
 %    \end{macrocode}
 %</facture>
 % \PrintChanges
