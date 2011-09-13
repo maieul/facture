@@ -117,7 +117,7 @@
 %\section{Personnalisation}
 % Plusieurs possibilités de personnalisation existent, en redéfinissant des commandes et/ou des couleurs. J'invite à lire le code pour savoir lesquels.
 %\begin{itemize}
-%\item Pour les couleurs et les mise en valeurs des textes, voir section~\ref{apparence}.
+%\item Pour les couleurs, les traits et les mise en valeurs des textes, voir section~\ref{apparence}.
 %\item Pour les réglages concernant les mathématiques (arrondis par exemple), voir section~\ref{math}.
 %\item Pour les textes, voir section~\ref{texte}.
 %\item Pour  le pieds de page, voir section~\ref{pied}.
@@ -162,6 +162,8 @@
 \definecolor{encadre}{RGB}{111,111,111}
 \newcommand{\libelle}[1]{\textcolor{entetes}{\textbf#1}}
 \setlength{\tabcolsep}{1pt}
+\newlength{\epaisseurcadre}
+\setlength{\epaisseurcadre}{1.5mm}
 %    \end{macrocode}
 %\subsection{Textes}\label{texte}
 %\subsubsection{Invariants}
@@ -249,7 +251,7 @@
 %    \begin{macrocode}
     \coordinate[xshift=-1\textwidth,yshift=1ex] (a) at (b.north);
     \coordinate[xshift=1em,yshift=-1ex] (c) at (b.south);
-    \draw[color=encadre,line width=1.5mm] (a) rectangle  (c);
+    \draw[color=encadre,line width=\epaisseurcadre] (a) rectangle  (c);
     \end{tikzpicture}
 %    \end{macrocode}
 %
