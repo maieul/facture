@@ -6,6 +6,7 @@ all:facture.pdf exemple.pdf exemplesansTVA.pdf
 
 
 %.cls:%.ins %.dtx
+	@rm $*.cls
 	@xelatex $*.ins
 facture.pdf:facture.cls facture.dtx
 	@xelatex facture.dtx
