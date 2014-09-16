@@ -1,5 +1,5 @@
 % \iffalse meta-comment
-% Droits d'auteur : Maïeul Rouquette 2011
+% Droits d'auteur : Maïeul Rouquette 2011-2014
 % Licence Creative Commons - Paternité -Partage des Conditions Initiales à l'identique 
 % http://creativecommons.org/licenses/by-sa/2.0/fr/
 % \fi
@@ -21,11 +21,12 @@
 \end{document}
 %</driver>
 %\fi
-% \CheckSum{435}
+% \CheckSum{453}
 % \changes{v1.0}{2011/09/10}{Première version}
 % \changes{v1.1}{2014/09/16}{Laisser le choix de la marge à l'utilisateur}
 % \GetFileInfo{facture.dtx}
-% \title{La class \textsf{facture}\thanks{Ce document correspond à la version~1.0 de \textsf{facture},    datée du~10/09/2011.}}
+%\changes{v1.1.2}{2014/09/16}{Possibilité de modifier la taille du tableau.}
+% \title{La class \textsf{facture}\thanks{Ce document correspond à la version~1.2 de \textsf{facture},    datée du~16/09/2014.}}
 %\author{Maïeul Rouquette}
 %\maketitle
 %\begin{abstract}
@@ -120,8 +121,9 @@
 %\item Pour les couleurs, les traits et les mise en valeurs des textes, voir section~\ref{apparence}.
 %\item Pour les réglages concernant les mathématiques (arrondis par exemple), voir section~\ref{math}.
 %\item Pour les textes, voir section~\ref{texte}.
-%\item Pour  le pieds de page, voir section~\ref{pied}.
+%\item Pour le pieds de page, voir section~\ref{pied}.
 %\item Pour l'affichage de la TVA, voir section~\ref{afficheTVA} p.~\pageref{afficheTVA}
+%\item Pour la largeur des colonnes du tableau, voir section~\ref{largeurCols}.
 %\end{itemize}
 %
 %Pour personnaliser la taille du papier et celle des marges, on peut utiliser le package \emph{geometry}.
@@ -197,20 +199,21 @@
     \newcommand{\postTotaux}{}
 \fi
 %    \end{macrocode}
-%\subsection{Largeur des colonnes}
-%   \begin{macrocode}
-\newcommand{\largeurDescriptif}{p{0.2\textwidth}}
-\newcommand{\largeurChiffres}{p{0.2\textwidth}}
-\newcommand{\largeurChiffresAvecTVA}{p{0.1\textwidth}}
-
-%   \end{macrocode}
+%\subsection{Largeur des colonnes}\label{largeurCols}
+% On peut redéfinir les commandes ci-dessous pour modifier la largeur des commandes. Attention à ne pas dépasser un total de 1\cmd{\textwidth} !
+%    \begin{macrocode}
+\newcommand{\largeurDescriptif}{0.2\textwidth}
+\newcommand{\largeurChiffres}{0.2\textwidth}
+\newcommand{\largeurChiffresAvecTVA}{0.1\textwidth}
+%    \end{macrocode}
+%
 %\subsection{Réglages mathématiques}\label{math}
 %On régle ici les paramètres mathématiques, définissables avec le package \emph{numprint}.
 % Tout d'abord on dit qu'on veut avoir les zéros finaux.
 %    \begin{macrocode}
 \npaddmissingzero
 %    \end{macrocode}
-% Puis on dit qu'on arrondis à deux chiffres après la virgule.
+% Puis on dit qu'on arrondit à deux chiffres après la virgule.
 %    \begin{macrocode}
 \nprounddigits{2}
 %    \end{macrocode}
@@ -345,11 +348,11 @@
     \setlength{\tabcolsep}{0.5em}
     \arrayrulecolor{encadre}    
     \ifsansTVA%    
-        \begin{longtable}{|\largeurDescriptif{}|\largeurChiffres{}|\largeurChiffres{}|\largeurChiffres{}|\largeurChiffres{}|}%
+        \begin{longtable}{|p{\largeurDescriptif}|P{\largeurChiffres}|P{\largeurChiffres}|P{\largeurChiffres}|P{\largeurChiffres}|}%
         \hline%    
         \rowcolor{entetes}\centering\textbf\produit & \centering\textbf\quantite   & \centering\textbf\prixtxt & \centering\textbf\remise & \centering\textbf\tottxt  \tabularnewline[1ex]%
     \else%        
-        \begin{longtable}{|\largeurDescriptif{}|\largeurChiffresAvecTVA{}|\largeurChiffresAvecTVA{}|\largeurChiffresAvecTVA{}|\largeurChiffresAvecTVA{}|\largeurChiffres{}|\largeurChiffresAvecTVA{}|}%
+        \begin{longtable}{|p{\largeurDescriptif}|P{\largeurChiffresAvecTVA}|P{\largeurChiffresAvecTVA}|P{\largeurChiffresAvecTVA}|P{\largeurChiffresAvecTVA}|P{\largeurChiffres}|P{\largeurChiffresAvecTVA}|}%
         \hline%    
         \rowcolor{entetes}\centering\textbf\produit & \centering\textbf\quantite & \centering\textbf\prixHT & \centering\textbf\remise & \centering\textbf\totHTtxt & \centering\textbf\TVAtxt & \textbf\prixTTC \tabularnewline[1ex]%
     \fi%    
