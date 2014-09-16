@@ -199,9 +199,9 @@
 %    \end{macrocode}
 %\subsection{Largeur des colonnes}
 %   \begin{macrocode}
-\newcommand{\largeurDescriptif}{0.2\textwidth}
-\newcommand{\largeurChiffres}{0.2\textwidth}
-\newcommand{\largeurChiffresAvecTVA}{0.1\textwidth}
+\newcommand{\largeurDescriptif}{p{0.2\textwidth}}
+\newcommand{\largeurChiffres}{p{0.2\textwidth}}
+\newcommand{\largeurChiffresAvecTVA}{p{0.1\textwidth}}
 
 %   \end{macrocode}
 %\subsection{Réglages mathématiques}\label{math}
@@ -345,11 +345,11 @@
     \setlength{\tabcolsep}{0.5em}
     \arrayrulecolor{encadre}    
     \ifsansTVA%    
-        \begin{longtable}{|p{\largeurDescriptif}|P{\largeurChiffres}|P{\largeurChiffres}|P{\largeurChiffres}|P{\largeurChiffres}|}%
+        \begin{longtable}{|\largeurDescriptif{}|\largeurChiffres{}|\largeurChiffres{}|\largeurChiffres{}|\largeurChiffres{}|}%
         \hline%    
         \rowcolor{entetes}\centering\textbf\produit & \centering\textbf\quantite   & \centering\textbf\prixtxt & \centering\textbf\remise & \centering\textbf\tottxt  \tabularnewline[1ex]%
     \else%        
-        \begin{longtable}{|p{\largeurDescriptif}|P{\largeurChiffresAvecTVA}|P{\largeurChiffresAvecTVA}|P{\largeurChiffresAvecTVA}|P{\largeurChiffresAvecTVA}|P{\largeurChiffres}|P{\largeurChiffresAvecTVA}|}%
+        \begin{longtable}{|\largeurDescriptif{}|\largeurChiffresAvecTVA{}|\largeurChiffresAvecTVA{}|\largeurChiffresAvecTVA{}|\largeurChiffresAvecTVA{}|\largeurChiffres{}|\largeurChiffresAvecTVA{}|}%
         \hline%    
         \rowcolor{entetes}\centering\textbf\produit & \centering\textbf\quantite & \centering\textbf\prixHT & \centering\textbf\remise & \centering\textbf\totHTtxt & \centering\textbf\TVAtxt & \textbf\prixTTC \tabularnewline[1ex]%
     \fi%    
