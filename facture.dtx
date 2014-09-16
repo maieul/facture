@@ -15,6 +15,13 @@
 \usepackage{hyperref}
 \usepackage{csquotes}
 \usepackage{bidi}
+% Pour l'impression du changement
+\makeatletter
+  \def\glossary@prologue{%
+  	\appendix%
+	\section{Historique des changements}%
+	}
+\makeatother
 \EnableCrossrefs
 \RecordChanges
 \begin{document}
