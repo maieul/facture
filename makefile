@@ -1,7 +1,11 @@
 .PHONY:all clean
 
 all:facture.pdf exemple.pdf exemplesansTVA.pdf
-	zip facture.zip facture.ins facture.dtx *pdf README makefile *.tex
+	rm -f ../facture.zip
+	rm -rf facture
+	mkdir facture
+	cp *pdf *ins *dtx *cls *tex README makefile facture
+	zip -r ../facture.zip facture
 
 
 
@@ -19,4 +23,5 @@ facture.pdf:facture.cls facture.dtx
 
 clean:
 	rm -f *out *aux *log *pdf *glo *zip *cls *ilg *idx *gls  *toc
+	rm -rf facture
 
