@@ -24,6 +24,8 @@
 \makeatother
 \EnableCrossrefs
 \RecordChanges
+% Pour les renvois internes
+\newcommand{\renvoi}[1]{voir section~\ref{#1} p.~\pageref{#1}}
 \begin{document}
    \raggedbottom
   \DocInput{facture.dtx}
@@ -126,9 +128,8 @@
 %\end{verbatim}
 %\section{Personnalisation}
 % Plusieurs possibilités de personnalisation existent, en redéfinissant des commandes et/ou des couleurs. J'invite à lire le code pour savoir lesquels.
-% \newcommand{\renvoi}[1]{voir section~\ref{#1} p.~\pageref{#1}}
 %\begin{itemize}
-%\item Pour les couleurs, les traits et les mise en valeurs des textes, voir section~\ref{apparence}.
+%\item Pour les couleurs, les traits et les mise en valeurs des textes, \renvoi{apparence}.
 %\item Pour les réglages concernant les mathématiques (arrondis par exemple), voir section~\ref{math}.
 %\item Pour les textes, \renvoi{texte}.
 %\item Pour le pieds de page, \renvoi{pied}.
