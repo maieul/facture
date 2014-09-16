@@ -99,7 +99,7 @@
 %\meta{quantité} est la quantité souhaitée. Le nombre peut être entier ou décimal. En l'absence de cet argument, on suppose que le produit n'est présent qu'une fois.
 %\meta{prix unitaire HT} n'est pas à décrire.
 %\meta{remise}s'applique sur le prix total HT.
-%\meta{taux de TVA}: si un produit n'a pas le même taux que celui par défaut (\emph{cf}.~section~\ref{TVA}), cet argument permet d'indiquer le taux. Il est exprimé en pourcentage, mais sans le signe \%.
+%\meta{taux de TVA}: si un produit n'a pas le même taux que celui par défaut (\renvoi{TVA}), cet argument permet d'indiquer le taux. Il est exprimé en pourcentage, mais sans le signe \%.
 %
 %
 %Tout les nombres décimaux s'expriment en utilisant la virgule, même si l'usage du point fonctionne également.
@@ -113,7 +113,7 @@
 %\end{facture}
 %\end{verbatim}
 %
-% Dans le cas où l'option \verb|sansTVA| (\emph{cf}. section~\ref{TVA}) a été passée lors de l'appel à la classe, les colonnes ne sont pas les mêmes. Exemple (voir le fichier \href{exemplesansTVA.pdf}{exemplesansTVA.pdf} pour le résultat): 
+% Dans le cas où l'option \verb|sansTVA| (\renvoi{TVA}) a été passée lors de l'appel à la classe, les colonnes ne sont pas les mêmes. Exemple (voir le fichier \href{exemplesansTVA.pdf}{exemplesansTVA.pdf} pour le résultat): 
 %\begin{verbatim}
 %\begin{facture}
 %\ligne{Produit 1}[2]{25}
@@ -129,7 +129,7 @@
 % Plusieurs possibilités de personnalisation existent, en redéfinissant des commandes et/ou des couleurs. J'invite à lire le code pour savoir lesquels.
 %\begin{itemize}
 %\item Pour les couleurs, les traits et les mise en valeurs des textes, \renvoi{apparence}.
-%\item Pour les réglages concernant les mathématiques (arrondis par exemple), voir section~\ref{math}.
+%\item Pour les réglages concernant les mathématiques (arrondis par exemple), \renvoi{math}.
 %\item Pour les textes, \renvoi{texte}.
 %\item Pour le pieds de page, \renvoi{pied}.
 %\item Pour l'affichage de la TVA, \renvoi{afficheTVA}.
@@ -194,7 +194,7 @@
 \newcommand{\remise}{Remise}
 \newcommand{\unite}{€}
 %    \end{macrocode}
-%\subsubsection{Dépend du réglage sur la TVA (\emph{cf}.~section~\ref{TVA})}
+%\subsubsection{Dépend du réglage sur la TVA (\renvoi{TVA})}
 %    \begin{macrocode}
 \ifsansTVA%
     \newcommand{\tottxt}{Total}
@@ -235,7 +235,7 @@
 \def\@type{\facturetxt}
 %    \end{macrocode}
 %\subsection{Méta-données}
-%Toutes ces commandes sont appelées par l'utilisateurs au tout début (\emph{cf}.~section~\ref{meta}). La plupart stockent dans une commande commençant par @ le code qui est passé.
+%Toutes ces commandes sont appelées par l'utilisateurs au tout début (\renvoi{meta}). La plupart stockent dans une commande commençant par @ le code qui est passé.
 %    \begin{macrocode}
 \renewcommand{\date}[1]{\SetDate[#1]}
 \newcommand{\TVAdefaut}[1]{\def\@TVAdefaut{#1}}
@@ -295,7 +295,7 @@
     \begin{tikzpicture}
 %    \end{macrocode}
 %
-%Ensuite afficher les informations sur le destinataire. Des tests permettent d'afficher ou non la livraison séparement de  la facture, en fonction de ce qu'a défini l'utilisateur (\emph{cf}.~section~\ref{dest}).
+%Ensuite afficher les informations sur le destinataire. Des tests permettent d'afficher ou non la livraison séparement de  la facture, en fonction de ce qu'a défini l'utilisateur (\renvoi{dest}).
 %    \begin{macrocode}
     
 
