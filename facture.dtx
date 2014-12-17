@@ -161,11 +161,20 @@
 \RequirePackage{advdate}%Pour manipuler les dates
 \RequirePackage{xargs}%Pour des arguments conditionnels
 %    \end{macrocode}
+%\subsection{Option sansreduction}
+%    \begin{macrocode}
+\newif\ifsansreduction
+\sansreductionfalse
+\DeclareOption{sansreduction}{\sansreductiontrue}
+%    \end{macrocode}
 %\subsection{Option sansTVA}
 %    \begin{macrocode}
 \newif\ifsansTVA
 \sansTVAfalse
 \DeclareOption{sansTVA}{\sansTVAtrue}
+%    \end{macrocode}
+%\subsection{Exécution des options }
+%    \begin{macrocode}
 \ProcessOptions
 %    \end{macrocode}
 %\subsection{Apparence}\label{apparence}
