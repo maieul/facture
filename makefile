@@ -1,6 +1,6 @@
 .PHONY:all clean
 
-all:facture.pdf exemple.pdf exemplesansTVA.pdf
+all:facture.pdf exemple.pdf exemplesansTVA.pdf examplesansremise.pdf
 	rm -f ../facture.zip
 	rm -rf facture
 	mkdir facture
