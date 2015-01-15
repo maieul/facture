@@ -375,40 +375,76 @@
     \setlength{\tabcolsep}{0.5em}
     \arrayrulecolor{encadre}    
     \ifsansTVA%    
-        \begin{longtable}{%
-        |p{\largeurDescriptif}%Descriptif
-        |P{\largeurChiffres}%Qt
-        |P{\largeurChiffres}%Prix 
-        |P{\largeurChiffres}%Remise
-        |P{\largeurChiffres}|%Total
-        }%
-        \hline%    
-        \rowcolor{entetes}%
-        \centering\textbf\produit &%
-        \centering\textbf\quantite   &%
-        \centering\textbf\prixtxt &%
-        \centering\textbf\remise &%
-        \centering\textbf\tottxt%
-        \tabularnewline[1ex]%
+        \ifsansremise%
+	        \begin{longtable}{%
+	        |p{\largeurDescriptif}%Descriptif
+	        |P{\largeurChiffres}%Qt
+	        |P{\largeurChiffres}%Prix 
+	        |P{\largeurChiffres}|%Total
+	        }%
+	        \hline%    
+	        \rowcolor{entetes}%
+	        \centering\textbf\produit &%
+	        \centering\textbf\quantite   &%
+	        \centering\textbf\prixtxt &%
+	        \centering\textbf\tottxt%
+	        \tabularnewline[1ex]%  	    
+	    \else%
+	        \begin{longtable}{%
+	        |p{\largeurDescriptif}%Descriptif
+	        |P{\largeurChiffres}%Qt
+	        |P{\largeurChiffres}%Prix 
+	        |P{\largeurChiffres}%Remise
+	        |P{\largeurChiffres}|%Total
+	        }%
+	        \hline%    
+	        \rowcolor{entetes}%
+	        \centering\textbf\produit &%
+	        \centering\textbf\quantite   &%
+	        \centering\textbf\prixtxt &%
+	        \centering\textbf\remise &%
+	        \centering\textbf\tottxt%
+	        \tabularnewline[1ex]%
+	     \fi%
     \else%        
-        \begin{longtable}{%
-        |p{\largeurDescriptif}|%Descriptif
-        P{\largeurChiffresAvecTVA}|%Qt
-        P{\largeurChiffresAvecTVA}|%HT unitaire
-        P{\largeurChiffresAvecTVA}|%Remise
-        P{\largeurChiffresAvecTVA}|%Totalht
-        P{\largeurChiffresAvecTVA}|%TVA
-        P{\largeurChiffresAvecTVA}|%Total TTC
-        }%
-        \hline%    
-        \rowcolor{entetes}
-        \centering\textbf\produit &%
-        \centering\textbf\quantite &%
-        \centering\textbf\prixHT &% 
-        \centering\textbf\remise &% 
-        \centering\textbf\totHTtxt &%
-        \centering\textbf\TVAtxt &% 
-        \textbf\prixTTC \tabularnewline[1ex]%
+        \ifsansremise%
+	        \begin{longtable}{%
+	        |p{\largeurDescriptif}|%Descriptif
+	        P{\largeurChiffresAvecTVA}|%Qt
+	        P{\largeurChiffresAvecTVA}|%HT unitaire
+	        P{\largeurChiffresAvecTVA}|%Totalht
+	        P{\largeurChiffresAvecTVA}|%TVA
+	        P{\largeurChiffresAvecTVA}|%Total TTC
+	        }%
+	        \hline%    
+	        \rowcolor{entetes}
+	        \centering\textbf\produit &%
+	        \centering\textbf\quantite &%
+	        \centering\textbf\prixHT &% 
+	        \centering\textbf\totHTtxt &%
+	        \centering\textbf\TVAtxt &% 
+	        \textbf\prixTTC \tabularnewline[1ex]%
+
+        \else%
+	        \begin{longtable}{%
+	        |p{\largeurDescriptif}|%Descriptif
+	        P{\largeurChiffresAvecTVA}|%Qt
+	        P{\largeurChiffresAvecTVA}|%HT unitaire
+	        P{\largeurChiffresAvecTVA}|%Remise
+	        P{\largeurChiffresAvecTVA}|%Totalht
+	        P{\largeurChiffresAvecTVA}|%TVA
+	        P{\largeurChiffresAvecTVA}|%Total TTC
+	        }%
+	        \hline%    
+	        \rowcolor{entetes}
+	        \centering\textbf\produit &%
+	        \centering\textbf\quantite &%
+	        \centering\textbf\prixHT &% 
+	        \centering\textbf\remise &% 
+	        \centering\textbf\totHTtxt &%
+	        \centering\textbf\TVAtxt &% 
+	        \textbf\prixTTC \tabularnewline[1ex]%
+        \fi%
     \fi%    
     \endhead%
     \endfoot%
