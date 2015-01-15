@@ -434,9 +434,16 @@
     }
 %    \end{macrocode}
 %\end{environment}
-% On a besoin de définir une commande \cmd{\lignesansTVA} pour afficher le contenu d'une ligne lorsqu'on n'a pas de TVA. En effet, dès qu'on change de cellule, les tests conditionnels sont perdus.
+% On a besoin de définir une commande \cmd{\lignesansTVA} pour afficher le contenu d'une ligne lorsqu'on n'a pas de TVA. 
 %    \begin{macrocode}
-\newcommand{\lignesansTVA}[5]{#1 & #2 & #3 & #4 & #5 \tabularnewline[1ex]}
+\newcommand{\lignesansTVA}[5]{
+  #1 &
+  #2 &
+  #3 &
+  \unless\ifsansremise
+    #4 &
+  \fi
+  #5 \tabularnewline[1ex]}
 %    \end{macrocode}
 % La commande \cmd{\afficheTVA} sert à afficher la TVA dans le tableau. En ne l'indiquant pas directement dans le code de \cmd{\ligne}, on permet de  personnaliser plus facilement l'affichage de la TVA. \label{afficheTVA}
 
@@ -477,7 +484,15 @@
         \fpAdd{\totTTC}{\totTTC}{\TTC}%
         \xdef\totTTC{\totTTC}%    
         % Affichage
-        #1 &  #2 &  \numprint[\unite]{#3} & \numprint[\unite]{#4} & \numprint[\unite]{\HT}  & \afficheTVA{#5} & \numprint[\unite]{\TTC} \tabularnewline[1ex]%
+        #1 &
+        #2 &
+        \numprint[\unite]{#3} &
+        \unless\ifsansremise
+          \numprint[\unite]{#4} & 
+        \fi
+        \numprint[\unite]{\HT} &
+        \afficheTVA{#5} &
+        \numprint[\unite]{\TTC} \tabularnewline[1ex]%
     \fi
     \hline
 }
