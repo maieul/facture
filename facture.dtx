@@ -472,12 +472,18 @@
     \else
         % Prix hors taxe
         \fpMul{\HT}{#3}{#2}%
-        \fpSub{\HT}{\HT}{#4}%
+        \unless\ifsansremise%
+          \fpSub{\HT}{\HT}{#4}%
+        \fi%
         \xdef\HT{\HT}%retenons
         \fpAdd{\totHT}{\totHT}{\HT}%
         \xdef\totHT{\totHT}%
         % Calcul de la TVA
-        \fpDiv{\centieme}{#5}{100}%
+        \ifsansremise%
+           \fpDiv{\centieme}{#4}{100}%       
+        \else%
+          \fpDiv{\centieme}{#5}{100}%
+        \fi
         \fpMul{\TVA}{\centieme}{\HT}%
         \xdef\TVA{\TVA}%retenons
         \fpAdd{\totTVA}{\totTVA}{\TVA}%
