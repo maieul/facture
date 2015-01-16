@@ -1,10 +1,10 @@
 .PHONY:all clean
 
-all:facture.pdf exemple.pdf exemplesansTVA.pdf
+all:facture.pdf exemple.pdf exemplesansTVA.pdf exemplesansremise.pdf
 	rm -f ../facture.zip
 	rm -rf facture
 	mkdir facture
-	cp *pdf *ins *dtx *cls *tex README makefile facture
+	ln *pdf *ins *dtx *cls *tex README makefile facture
 	zip -r ../facture.zip facture
 
 

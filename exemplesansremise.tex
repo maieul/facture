@@ -1,0 +1,35 @@
+\documentclass[sansremise]{facture}
+\usepackage{lipsum}
+\usepackage[top=2 cm, bottom=2 cm, left=1.5 cm, right=2.5 cm]{geometry}
+\setmainfont[Mapping=tex-text]{Linux Libertine O}
+\datelimite{30}
+\dest{Client\\
+Dans telle rue\\
+CP VILLE
+}
+\fact{Client facturé
+Dans telle rue\\
+CP VILLE\\
+}
+\nomemet{Entreprise}
+\adresseemet{Adresse\\
+CP Ville\\
+courriel@domaine.tld \\
+Tel : 01 23 45 67 89 \\
+}
+\codedest{Ent}
+\numero{24}
+\type{Devis}
+\pied{Payable à l’ordre de  XXXX --- 
+SIRET : XXXX
+}
+\begin{document}
+\entete
+
+\begin{facture}
+\ligne{Produit 1}[2]{25}[5,5]
+\ligne{Produit 2}{10}
+\end{facture}
+
+\lipsum[1-6]
+\end{document}
