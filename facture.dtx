@@ -460,20 +460,16 @@
 {%
     \end{longtable}
 %    \end{macrocode}
-%On affiche ensuite les totaux, qu'on place grâce à \emph{TikZ}. Le cercle de 0,001 de diamètre sert à faire prendre à la figure tikz le plus de place possible, pour que les textes soient alignés à droite.
+%On affiche ensuite les totaux.
 %    \begin{macrocode}    
-    \noindent\begin{tikzpicture}
-    \draw[color=white] (0,0) circle (0.001);    
-        \node[right,xshift=0.66\textwidth,text width=0.33\textwidth]{%
                         \ifsansTVA%
-                            \hfill \libelle{\tottxt:} \numprint[\unite]{\tot}\\%                
-                        \else%                
-                            \libelle{\totHTtxt:}\hfill \numprint[\unite]{\totHT} \\%
-                            \libelle{\totTVAtxt:}\hfill \numprint[\unite]{\totTVA} \\%
-                            \libelle{\totTTCtxt:}\hfill \numprint[\unite]{\totTTC} \\
+                            \noindent\hspace{0.66\textwidth}\hfill \libelle{\tottxt:} \numprint[\unite]{\tot}\\%
+                        \else%
+                            \noindent\hspace{0.66\textwidth}\libelle{\totHTtxt:}\hfill \numprint[\unite]{\totHT} \\%
+                            \hbox{}\hspace{0.66\textwidth}\libelle{\totTVAtxt:}\hfill \numprint[\unite]{\totTVA} \\%
+                            \hbox{}\noindent\hspace{0.66\textwidth}\libelle{\totTTCtxt:}\hfill \numprint[\unite]{\totTTC} \\
                         \fi
-                        \postTotaux};
-    \end{tikzpicture}
+                        \hspace{0.66\textwidth}\postTotaux
     
     }
 %    \end{macrocode}
