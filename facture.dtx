@@ -378,18 +378,18 @@
 \newenvironment{facture}{%
     \setlength{\extrarowheight}{0.5ex}
     \setlength{\tabcolsep}{0.5em}
- \edef\largeurDescriptif{\dimexpr\largeurDescriptif -2\tabcolsep\relax}
- \edef\largeurChiffres{\dimexpr\largeurChiffres -2\tabcolsep\relax}
- \edef\largeurTVA{\dimexpr\largeurTVA -2\tabcolsep\relax}
- \edef\largeurChiffresAvecTVA{\dimexpr\largeurChiffresAvecTVA -2\tabcolsep\relax}
+ \edef\@largeurDescriptif{\dimexpr\largeurDescriptif -2\tabcolsep\relax}
+ \edef\@largeurChiffres{\dimexpr\largeurChiffres -2\tabcolsep\relax}
+ \edef\@largeurTVA{\dimexpr\largeurTVA -2\tabcolsep\relax}
+ \edef\@largeurChiffresAvecTVA{\dimexpr\largeurChiffresAvecTVA -2\tabcolsep\relax}
     \arrayrulecolor{encadre}    
     \ifsansTVA%    
         \ifsansremise%
 	        \begin{longtable}{%
-	        |p{\largeurDescriptif}%Descriptif
-	        |P{\largeurChiffres}%Qt
-	        |P{\largeurChiffres}%Prix 
-	        |P{\largeurChiffres}|%Total
+	        |p{\@largeurDescriptif}%Descriptif
+	        |P{\@largeurChiffres}%Qt
+	        |P{\@largeurChiffres}%Prix 
+	        |P{\@largeurChiffres}|%Total
 	        }%
 	        \hline%    
 	        \rowcolor{entetes}%
@@ -400,11 +400,11 @@
 	        \tabularnewline[1ex]%  	    
 	    \else%
 	        \begin{longtable}{%
-	        |p{\largeurDescriptif}%Descriptif
-	        |P{\largeurChiffres}%Qt
-	        |P{\largeurChiffres}%Prix 
-	        |P{\largeurChiffres}%Remise
-	        |P{\largeurChiffres}|%Total
+	        |p{\@largeurDescriptif}%Descriptif
+	        |P{\@largeurChiffres}%Qt
+	        |P{\@largeurChiffres}%Prix 
+	        |P{\@largeurChiffres}%Remise
+	        |P{\@largeurChiffres}|%Total
 	        }%
 	        \hline%    
 	        \rowcolor{entetes}%
@@ -418,12 +418,12 @@
     \else%        
         \ifsansremise%
 	        \begin{longtable}{%
-	        |p{\largeurDescriptif}|%Descriptif
-	        P{\largeurChiffresAvecTVA}|%Qt
-	        P{\largeurChiffresAvecTVA}|%HT unitaire
-	        P{\largeurChiffresAvecTVA}|%Totalht
-	        P{\largeurTVA}|%TVA
-	        P{\largeurChiffresAvecTVA}|%Total TTC
+	        |p{\@largeurDescriptif}|%Descriptif
+	        P{\@largeurChiffresAvecTVA}|%Qt
+	        P{\@largeurChiffresAvecTVA}|%HT unitaire
+	        P{\@largeurChiffresAvecTVA}|%Totalht
+	        P{\@largeurTVA}|%TVA
+	        P{\@largeurChiffresAvecTVA}|%Total TTC
 	        }%
 	        \hline%    
 	        \rowcolor{entetes}
@@ -436,13 +436,13 @@
 
         \else%
 	        \begin{longtable}{%
-	        |p{\largeurDescriptif}|%Descriptif
-	        P{\largeurChiffresAvecTVA}|%Qt
-	        P{\largeurChiffresAvecTVA}|%HT unitaire
-	        P{\largeurChiffresAvecTVA}|%Remise
-	        P{\largeurChiffresAvecTVA}|%Totalht
-	        P{\largeurTVA}|%TVA
-	        P{\largeurChiffresAvecTVA}|%Total TTC
+	        |p{\@largeurDescriptif}|%Descriptif
+	        P{\@largeurChiffresAvecTVA}|%Qt
+	        P{\@largeurChiffresAvecTVA}|%HT unitaire
+	        P{\@largeurChiffresAvecTVA}|%Remise
+	        P{\@largeurChiffresAvecTVA}|%Totalht
+	        P{\@largeurTVA}|%TVA
+	        P{\@largeurChiffresAvecTVA}|%Total TTC
 	        }%
 	        \hline%    
 	        \rowcolor{entetes}
