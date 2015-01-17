@@ -231,6 +231,7 @@
 %    \end{macrocode}
 %\subsection{Largeur des colonnes}\label{largeurCols}
 % On peut redéfinir les commandes ci-dessous pour modifier la largeur des commandes. Attention à ne pas dépasser un total de 1\cmd{\textwidth} !
+% Le package se charge d'ajuster automatiquement pour supprimer la margeur intérieure
 %    \begin{macrocode}
 \newcommand{\largeurDescriptif}{0.2\textwidth}
 \newcommand{\largeurChiffres}{0.2\textwidth}
@@ -377,6 +378,10 @@
 \newenvironment{facture}{%
     \setlength{\extrarowheight}{0.5ex}
     \setlength{\tabcolsep}{0.5em}
+ \edef\largeurDescriptif{\dimexpr\largeurDescriptif -2\tabcolsep\relax}
+ \edef\largeurChiffres{\dimexpr\largeurChiffres -2\tabcolsep\relax}
+ \edef\largeurTVA{\dimexpr\largeurTVA -2\tabcolsep\relax}
+ \edef\largeurChiffresAvecTVA{\dimexpr\largeurChiffresAvecTVA -2\tabcolsep\relax}
     \arrayrulecolor{encadre}    
     \ifsansTVA%    
         \ifsansremise%
