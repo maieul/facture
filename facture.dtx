@@ -297,8 +297,8 @@
 %
 %Ensuite déterminer la place que cela prend, puis tracer l'encadré.
 %    \begin{macrocode}
-    \coordinate[xshift=-1\textwidth,yshift=1ex] (a) at (b.north);
-    \coordinate[xshift=1em,yshift=-1ex] (c) at (b.south);
+    \coordinate[xshift=-\textwidth-\epaisseurcadre,yshift=1ex] (a) at (b.north);
+    \coordinate[xshift=-\epaisseurcadre,yshift=-1ex] (c) at (b.south);
     \draw[color=encadre,line width=\epaisseurcadre] (a) rectangle  (c);
     \end{tikzpicture}
 %    \end{macrocode}
