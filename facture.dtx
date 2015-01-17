@@ -231,12 +231,18 @@
 %    \end{macrocode}
 %\subsection{Largeur des colonnes}\label{largeurCols}
 % On peut redéfinir les commandes ci-dessous pour modifier la largeur des commandes. Attention à ne pas dépasser un total de 1\cmd{\textwidth} !
-% Le package se charge d'ajuster automatiquement pour supprimer la margeur intérieure
+% Le package se charge d'ajuster automatiquement pour supprimer la marge intérieure.
+% La largeur des chiffres est calculée automatiquement en fonction de la largeur du descriptif et de la largeur de la TVA. Il est donc fortement recommandé de ne modifiée que \cs{largeurDescriptif} et \cs{largeurTVA}.
 %    \begin{macrocode}
 \newcommand{\largeurDescriptif}{0.2\textwidth}
-\newcommand{\largeurChiffres}{0.2\textwidth}
 \newcommand{\largeurTVA}{0.2\textwidth}
-\newcommand{\largeurChiffresAvecTVA}{0.1\textwidth}
+\ifsansremise
+  \newcommand{\largeurChiffresAvecTVA}{\dimexpr (\textwidth-\largeurDescriptif-\largeurTVA)/4\relax}
+  \newcommand{\largeurChiffres}{\dimexpr (\textwidth-\largeurDescriptif-\largeurTVA)/3 \relax}
+\else
+  \newcommand{\largeurChiffresAvecTVA}{\dimexpr (\textwidth-\largeurDescriptif-\largeurTVA)/5\relax}
+  \newcommand{\largeurChiffres}{\dimexpr (\textwidth-\largeurDescriptif-\largeurTVA)/4 \relax}
+\fi
 %    \end{macrocode}
 %
 %\subsection{Réglages mathématiques}\label{math}
