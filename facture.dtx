@@ -66,7 +66,7 @@
 %\documentclass{facture}
 %\end{verbatim}
 %
-% Permet de générer une facture avec TVA. Celle-ci est définie par défaut à 19,6~\%, mais il est possible de modifier le taux, grâce à la commande \DescribeMacro{\TVAdefaut}\cmd{\TVAdefaut}\marg{taux}. Par exemple pour avoir un taux de 5,5~\% :
+% Permet de générer une facture avec TVA. Celle-ci est définie par défaut à 19,6~\%\footnote{Valeur lors de la sortie de la première version de la classe. Pour éviter que des factures créées avant la variation du taux mais recompilées après la variation ne voit leur TVA changer, ce taux restera fixe d'une version à l'autre de la classe.}, mais il est possible de modifier le taux, grâce à la commande \DescribeMacro{\TVAdefaut}\cmd{\TVAdefaut}\marg{taux}. Par exemple pour avoir un taux de 5,5~\% :
 %\begin{verbatim}
 %\TVAdefaut{5,5}
 %\end{verbatim}
