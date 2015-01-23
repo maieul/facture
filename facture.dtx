@@ -36,8 +36,9 @@
 % \changes{v1.1}{2014/09/16}{Laisser le choix de la marge à l'utilisateur}
 % \changes{v1.1}{2014/09/16}{Possibilité de modifier la taille du tableau.}
 % \changes{v1.2}{2015/01/16}{Possibilité de produire des factures sans la colonne remise.}
-% \def\filedate{16/01/2015}
-% \def\fileversion{1.2}
+% \changes{v1.2.1}{2015/01/16}{Corrections de quelques problèmes d'alignement.}
+% \def\filedate{21/01/2015}
+% \def\fileversion{1.2.1}
 % \date{\filedate}
 % \title{La class \textsf{facture}\thanks{Ce document correspond à la version~\fileversion de \textsf{facture} datée du \filedate.}}
 %\author{Maïeul Rouquette et Joël Gombin}
@@ -151,7 +152,7 @@
 %<*facture>
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{facture}[16/01/2015 v1.2]
+\ProvidesClass{facture}[23/01/2015 v1.2.1]
 \LoadClass[a4paper]{article}%On se base sur la classe article
 \RequirePackage{fontspec}    
 \RequirePackage{xunicode}
@@ -231,10 +232,18 @@
 %    \end{macrocode}
 %\subsection{Largeur des colonnes}\label{largeurCols}
 % On peut redéfinir les commandes ci-dessous pour modifier la largeur des commandes. Attention à ne pas dépasser un total de 1\cmd{\textwidth} !
+% Le package se charge d'ajuster automatiquement pour supprimer la marge intérieure.
+% La largeur des chiffres est calculée automatiquement en fonction de la largeur du descriptif et de la largeur de la TVA. Il est donc fortement recommandé de ne modifiée que \cs{largeurDescriptif} et \cs{largeurTVA}.
 %    \begin{macrocode}
 \newcommand{\largeurDescriptif}{0.2\textwidth}
-\newcommand{\largeurChiffres}{0.2\textwidth}
-\newcommand{\largeurChiffresAvecTVA}{0.1\textwidth}
+\newcommand{\largeurTVA}{0.2\textwidth}
+\ifsansremise
+  \newcommand{\largeurChiffresAvecTVA}{\dimexpr (\textwidth-\largeurDescriptif-\largeurTVA)/4\relax}
+  \newcommand{\largeurChiffres}{\dimexpr (\textwidth-\largeurDescriptif)/3 \relax}
+\else
+  \newcommand{\largeurChiffresAvecTVA}{\dimexpr (\textwidth-\largeurDescriptif-\largeurTVA)/5\relax}
+  \newcommand{\largeurChiffres}{\dimexpr (\textwidth-\largeurDescriptif)/4 \relax}
+\fi
 %    \end{macrocode}
 %
 %\subsection{Réglages mathématiques}\label{math}
@@ -289,8 +298,8 @@
 %
 %Ensuite déterminer la place que cela prend, puis tracer l'encadré.
 %    \begin{macrocode}
-    \coordinate[xshift=-1\textwidth,yshift=1ex] (a) at (b.north);
-    \coordinate[xshift=1em,yshift=-1ex] (c) at (b.south);
+    \coordinate[xshift=-\textwidth-\epaisseurcadre,yshift=1ex] (a) at (b.north);
+    \coordinate[xshift=-\epaisseurcadre,yshift=-1ex] (c) at (b.south);
     \draw[color=encadre,line width=\epaisseurcadre] (a) rectangle  (c);
     \end{tikzpicture}
 %    \end{macrocode}
@@ -376,14 +385,18 @@
 \newenvironment{facture}{%
     \setlength{\extrarowheight}{0.5ex}
     \setlength{\tabcolsep}{0.5em}
+ \edef\@largeurDescriptif{\dimexpr\largeurDescriptif -2\tabcolsep\relax}
+ \edef\@largeurChiffres{\dimexpr\largeurChiffres -2\tabcolsep\relax}
+ \edef\@largeurTVA{\dimexpr\largeurTVA -2\tabcolsep\relax}
+ \edef\@largeurChiffresAvecTVA{\dimexpr\largeurChiffresAvecTVA -2\tabcolsep\relax}
     \arrayrulecolor{encadre}    
     \ifsansTVA%    
         \ifsansremise%
 	        \begin{longtable}{%
-	        |p{\largeurDescriptif}%Descriptif
-	        |P{\largeurChiffres}%Qt
-	        |P{\largeurChiffres}%Prix 
-	        |P{\largeurChiffres}|%Total
+	        |p{\@largeurDescriptif}%Descriptif
+	        |P{\@largeurChiffres}%Qt
+	        |P{\@largeurChiffres}%Prix 
+	        |P{\@largeurChiffres}|%Total
 	        }%
 	        \hline%    
 	        \rowcolor{entetes}%
@@ -394,11 +407,11 @@
 	        \tabularnewline[1ex]%  	    
 	    \else%
 	        \begin{longtable}{%
-	        |p{\largeurDescriptif}%Descriptif
-	        |P{\largeurChiffres}%Qt
-	        |P{\largeurChiffres}%Prix 
-	        |P{\largeurChiffres}%Remise
-	        |P{\largeurChiffres}|%Total
+	        |p{\@largeurDescriptif}%Descriptif
+	        |P{\@largeurChiffres}%Qt
+	        |P{\@largeurChiffres}%Prix 
+	        |P{\@largeurChiffres}%Remise
+	        |P{\@largeurChiffres}|%Total
 	        }%
 	        \hline%    
 	        \rowcolor{entetes}%
@@ -412,12 +425,12 @@
     \else%        
         \ifsansremise%
 	        \begin{longtable}{%
-	        |p{\largeurDescriptif}|%Descriptif
-	        P{\largeurChiffresAvecTVA}|%Qt
-	        P{\largeurChiffresAvecTVA}|%HT unitaire
-	        P{\largeurChiffresAvecTVA}|%Totalht
-	        P{\largeurChiffresAvecTVA}|%TVA
-	        P{\largeurChiffresAvecTVA}|%Total TTC
+	        |p{\@largeurDescriptif}|%Descriptif
+	        P{\@largeurChiffresAvecTVA}|%Qt
+	        P{\@largeurChiffresAvecTVA}|%HT unitaire
+	        P{\@largeurChiffresAvecTVA}|%Totalht
+	        P{\@largeurTVA}|%TVA
+	        P{\@largeurChiffresAvecTVA}|%Total TTC
 	        }%
 	        \hline%    
 	        \rowcolor{entetes}
@@ -430,13 +443,13 @@
 
         \else%
 	        \begin{longtable}{%
-	        |p{\largeurDescriptif}|%Descriptif
-	        P{\largeurChiffresAvecTVA}|%Qt
-	        P{\largeurChiffresAvecTVA}|%HT unitaire
-	        P{\largeurChiffresAvecTVA}|%Remise
-	        P{\largeurChiffresAvecTVA}|%Totalht
-	        P{\largeurChiffresAvecTVA}|%TVA
-	        P{\largeurChiffresAvecTVA}|%Total TTC
+	        |p{\@largeurDescriptif}|%Descriptif
+	        P{\@largeurChiffresAvecTVA}|%Qt
+	        P{\@largeurChiffresAvecTVA}|%HT unitaire
+	        P{\@largeurChiffresAvecTVA}|%Remise
+	        P{\@largeurChiffresAvecTVA}|%Totalht
+	        P{\@largeurTVA}|%TVA
+	        P{\@largeurChiffresAvecTVA}|%Total TTC
 	        }%
 	        \hline%    
 	        \rowcolor{entetes}
@@ -459,20 +472,16 @@
 {%
     \end{longtable}
 %    \end{macrocode}
-%On affiche ensuite les totaux, qu'on place grâce à \emph{TikZ}. Le cercle de 0,001 de diamètre sert à faire prendre à la figure beamer le plus de place possible, pour que les textes soient alignés à droite.
+%On affiche ensuite les totaux.
 %    \begin{macrocode}    
-    \begin{tikzpicture}
-    \draw[color=white] (0,0) circle (0.001);    
-        \node[right,xshift=0.66\textwidth,text width=0.33\textwidth]{%
                         \ifsansTVA%
-                            \hfill \libelle{\tottxt:} \numprint[\unite]{\tot}\\%                
-                        \else%                
-                            \libelle{\totHTtxt:}\hfill \numprint[\unite]{\totHT} \\%
-                            \libelle{\totTVAtxt:}\hfill \numprint[\unite]{\totTVA} \\%
-                            \libelle{\totTTCtxt:}\hfill \numprint[\unite]{\totTTC} \\
+                            \noindent\hspace{0.66\textwidth}\hfill \libelle{\tottxt:} \numprint[\unite]{\tot}\\%
+                        \else%
+                            \noindent\hspace{0.66\textwidth}\libelle{\totHTtxt:}\hfill \numprint[\unite]{\totHT}\\%
+                            \hbox{}\hspace{0.66\textwidth}\libelle{\totTVAtxt:}\hfill \numprint[\unite]{\totTVA}\\%
+                            \hbox{}\noindent\hspace{0.66\textwidth}\libelle{\totTTCtxt:}\hfill \numprint[\unite]{\totTTC}\\
                         \fi
-                        \postTotaux};
-    \end{tikzpicture}
+                        \hspace{0.66\textwidth}\postTotaux
     
     }
 %    \end{macrocode}
