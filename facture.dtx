@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 % Droits d'auteur : 
-%   - Maïeul Rouquette 2011-2014
+%   - Maïeul Rouquette 2011-…
 %   - Joël Gombin 2014
 % Licence Creative Commons - Paternité -Partage des Conditions Initiales à l'identique 
 % http://creativecommons.org/licenses/by-sa/2.0/fr/
@@ -36,9 +36,10 @@
 % \changes{v1.1}{2014/09/16}{Laisser le choix de la marge à l'utilisateur}
 % \changes{v1.1}{2014/09/16}{Possibilité de modifier la taille du tableau.}
 % \changes{v1.2}{2015/01/16}{Possibilité de produire des factures sans la colonne remise.}
-% \changes{v1.2.1}{2015/01/16}{Corrections de quelques problèmes d'alignement.}
-% \def\filedate{21/01/2015}
-% \def\fileversion{1.2.1}
+% \changes{v1.2.2}{2015/01/16}{Corrections de quelques problèmes d'alignement.}
+% \changes{v1.2.2}{2017/04/12}{Corrections d'un bug si le numéro de facture n'est pas défini.}
+% \def\filedate{2017/04/12}
+% \def\fileversion{1.2.2}
 % \date{\filedate}
 % \title{La class \textsf{facture}\thanks{Ce document correspond à la version~\fileversion de \textsf{facture} datée du \filedate.}}
 %\author{Maïeul Rouquette et Joël Gombin}
@@ -152,7 +153,7 @@
 %<*facture>
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{facture}[23/01/2015 v1.2.1]
+\ProvidesClass{facture}[2017/04/12/04 v1.2.2]
 \LoadClass[a4paper]{article}%On se base sur la classe article
 \RequirePackage{fontspec}    
 \RequirePackage{xunicode}
@@ -344,8 +345,8 @@
         \libelle{{\datetxt}} \today    \\
         \ifdef{\@numero}{%
             \libelle{{\@type\ntxt}} \@numero        
+        		\\
         }{}
-        \\
         \ifdef{\@codedest}{%
             \libelle{{\codeclient}} \@codedest        
         }{}
