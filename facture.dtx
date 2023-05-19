@@ -349,8 +349,9 @@
         }{}
         \ifdef{\@codedest}{%
             \libelle{{\codeclient}} \@codedest        
-        }{}
-        \ifdef{\@datelimite}{\\\AdvanceDate[\@datelimite]\libelle{{\datelimitetxt}} \today}{}
+                \\
+          }{}
+        \ifdef{\@datelimite}{\AdvanceDate[\@datelimite]\libelle{{\datelimitetxt}} \today}{}
     };
     
     \end{tikzpicture}
