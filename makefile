@@ -4,7 +4,7 @@ all:facture.pdf exemple.pdf exemplesansTVA.pdf exemplesansremise.pdf
 	rm -f ../facture.zip
 	rm -rf facture
 	mkdir facture
-	ln *pdf *ins *dtx  *tex README makefile facture
+	ln *pdf *ins *dtx  *tex README.md makefile facture
 	zip -r ../facture.zip facture
 
 
